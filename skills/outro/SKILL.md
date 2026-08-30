@@ -1,6 +1,6 @@
 ---
 name: outro
-description: Use when ending a session — "wrap up the session", "sign off", "good evening", "done for today" — or when the user signals stopping. NOT for finishing a branch mid-session (use polish).
+description: Use when ending a session — "wrap up the session", "sign off", "good evening", "done for today" — or when the user signals stopping. Commits and pushes unfinished work as part of closing out. NOT for finishing a branch mid-session (use polish).
 ---
 
 # Outro

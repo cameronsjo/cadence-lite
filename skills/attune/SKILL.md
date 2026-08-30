@@ -1,6 +1,6 @@
 ---
 name: attune
-description: Use when starting work that will require tools — a feature, design, refactor, investigation, or analysis — before writing any implementation. Triggers on a new task request, "let's build", "add support for", "how should we". NOT for pure factual questions.
+description: Use when starting work that will require tools — a feature, design, refactor, investigation, or analysis — before writing any implementation. Triggers on a new task request, "let's build", "add support for", "how should we". Writes and commits a plan file before implementation. NOT for pure factual questions.
 ---
 
 # Attune

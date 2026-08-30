@@ -1,6 +1,6 @@
 ---
 name: capture
-description: Use when an idea, finding, or side task lands mid-session that is not the current work — "note this", "idea:", "we should also…". NOT for steps of the task already in flight.
+description: Use when an idea, finding, or side task lands mid-session that is not the current work — "note this", "idea:", "we should also…". May file the idea as an issue on the owning repo. NOT for steps of the task already in flight.
 ---
 
 # Capture
