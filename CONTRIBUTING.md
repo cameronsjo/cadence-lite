@@ -50,6 +50,8 @@ Useful contributions:
 - A step that is ambiguous enough that different agents read it differently.
 - A wiring recipe for a harness not yet covered in the README.
 - A failure mode a skill claims to prevent but does not actually prevent as written.
+- An optional skill with a distinct request and useful output, backed by real use
+  that demonstrates a gap in the existing skills. Keep the default rhythm small.
 
 Less useful:
 
@@ -57,7 +59,8 @@ Less useful:
 - Adding tool-specific or vendor-specific instructions. The skills are deliberately
   harness-neutral; anything naming a specific agent, tool, or command belongs in the
   README's wiring section, not in a `SKILL.md`.
-- Adding a sixth skill. The set is small on purpose.
+- Adding skills that duplicate existing behavior or turn ordinary work into a
+  mandatory ceremony. Catalog size and instruction length are costs, not goals.
 
 ## Testing a change
 

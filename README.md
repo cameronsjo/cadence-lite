@@ -1,6 +1,7 @@
 # cadence-lite
 
-Five skills that give a coding-agent session a beginning, a middle, and an end.
+A small set of skills for session rhythm, backlog decisions, and targeted workflow
+improvements.
 
 This is the portable core of a larger methodology — the part that needs no hooks, no
 binaries, and no plugin runtime. Every skill is a single `SKILL.md` file of plain
@@ -9,6 +10,7 @@ markdown. If your agent harness can load a directory of skills, it can run this.
 ## The rhythm
 
 Four skills mark phases when those phases are needed. Capture rides alongside them.
+Triage and adapt are optional workflows, not additional phases.
 
 ```text
   intro (no task yet)        attune (unresolved choices)
@@ -28,10 +30,17 @@ Four skills mark phases when those phases are needed. Capture rides alongside th
 | `polish`  | Before opening or updating a PR       | Shipping the defect a review pass would have caught                   |
 | `outro`   | Ending the session                    | Work that ended in conversation but never on disk                     |
 | `capture` | An idea lands that is not the work    | A good idea dying in scrollback, or derailing the task it interrupted |
+| `triage`  | Reviewing accumulated ideas or a backlog | Stale or duplicated work crowding out useful next steps |
+| `adapt`   | Learning from observed workflow friction | Repeating a mistake or adding a permanent rule for one incident |
 
 There is no `execute` skill. Execution follows the user's request and any approved
 plan. A specified small fix can proceed directly; the rhythm does not require a
 planning ceremony for every edit.
+
+Capture saves an idea; triage recommends which saved ideas to pursue, defer, or drop.
+Adapt proposes the smallest evidence-backed workflow improvement, including no
+change when that is the better outcome. Neither recommendations nor reflection
+authorize implementation or changes to trackers, instructions, or memory.
 
 Each skill is short on purpose. They describe outcomes, decision boundaries, and
 non-obvious constraints; they name no tools, no vendor, and no specific agent, so the same
@@ -55,6 +64,9 @@ for skill in intro attune polish outro capture; do
   ln -sfn "$HOME/.cadence-lite/skills/$skill" "$SKILL_DIR/$skill"
 done
 ```
+
+The example installs the five-skill rhythm. To add either optional workflow, repeat
+the loop with `for skill in triage adapt; do` (or just the name you want).
 
 Symlinks rather than copies so a `git pull` in the clone updates every harness at once.
 If your harness will not follow symlinks, copy the directories instead and re-copy after
