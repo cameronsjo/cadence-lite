@@ -1,33 +1,32 @@
 ---
 name: attune
-description: Use when starting work that will require tools — a feature, design, refactor, investigation, or analysis — before writing any implementation. Triggers on a new task request, "let's build", "add support for", "how should we". Writes and commits a plan file before implementation. NOT for pure factual questions.
+description: Plan or investigate work with consequential unresolved choices before implementation. Use for a requested plan; not a specified small fix or continuation of approved work.
 ---
 
 # Attune
 
-Understand, propose, and get approval before implementing. The failure this prevents: going straight from acceptance criteria to code, so the first design decision the user sees is one already built.
+Resolve consequential choices before building. The failure this prevents: making a product or design decision the user never authorized, or repeatedly stopping work they already approved.
 
 ## Route first
 
-Every task lands in one of four tiers. Recognize the tier as the conversation unfolds and suggest it — the user confirms, redirects, or says "just do it". Suggestion, never enforcement.
+Choose the lightest approach that resolves the actual uncertainty. The user does not need to choose a workflow tier.
 
 | Tier | Signals | Path |
 | --- | --- | --- |
-| **Ready to implement** | Clear specification, small and well-understood change | Execute directly; steps below compress to one short message |
+| **Ready to implement** | Clear specification, small and well-understood change | Execute directly within the request; no separate planning gate |
 | **Needs plan** | Creative work, design decisions, refactors with choices | The full steps below; plan file persists the decisions |
 | **Needs spec** | Large or uncertain work, public interfaces, multi-part change | Plan file plus a requirements section (RFC 2119 keywords, acceptance criteria) that the checklist must satisfy |
 | **Needs research** | The unknowns dominate the ask | Deep dive first — read code, run experiments — then re-triage into one of the tiers above |
 
-A research round ends by re-stating the tier it now routes to; research is never the destination. When a task outgrows its tier mid-flight (a plan sprouts interface decisions, a spec reveals unknowns), say so and move up — never silently stay light.
+An investigation request can end with evidence and a recommendation. When investigation is part of an approved implementation, continue once the uncertainty is resolved; seek a decision only if the result changes the agreed scope or introduces a consequential choice.
 
 ## Steps
 
-1. **Clarify the real ask.** Read the relevant code, tests, and recent history. Restate the goal in one or two sentences; surface any genuinely blocking ambiguity as a question now, not mid-build.
-2. **Propose approaches.** Present 2–3 viable approaches, one sentence each, with a named recommendation and why. If only one approach is sensible, say so explicitly ("single obvious approach") rather than manufacturing alternatives.
-3. **Hold for approval.** Do not implement until the user approves an approach. Approval of the goal is not approval of an approach.
-4. **Persist the plan.** Write the approved plan to `docs/plans/YYYY-MM-DD-<slug>.md` — goal, chosen approach, alternatives declined and why, step checklist — and commit it before implementation starts.
-5. **Execute against the plan.** Tick checklist items in the same commit that lands the work. When reality forces a deviation, record it in the plan in that same commit — deviations are signal, not failure.
+1. **Establish the outcome.** Read the relevant evidence and identify what completion means within the request. Use existing context and approval; ask only for information that materially changes the result.
+2. **Resolve consequential choices.** Recommend an approach and explain real alternatives when they matter. A request to draft or propose a plan includes presenting it. Preserve an explicit request to hold a draft. A plan-only request does not authorize implementation.
+3. **Persist substantial decisions.** Before implementing an approved substantial plan, commit it at the repository's plan location (default `docs/plans/YYYY-MM-DD-<slug>.md`) with the goal, approach, real alternatives, checklist, and completion evidence.
+4. **Complete authorized work.** Carry the approved approach through implementation, relevant verification, and requested delivery. Fix failures caused by the change and rerun affected checks. Update the plan with the work; do not ask again for settled choices.
 
 ## Scale to fit
 
-The tier sets the floor. A small, well-understood change compresses steps 1–3 into one short message (ask + recommended approach + "proceeding unless you object") and may skip the plan file. A change that restructures components, adds a subsystem, or changes a public interface always gets the full sequence — and a spec tier gets its requirements section. When in doubt, take the heavier path; upgrade mid-task if hidden complexity appears, never downgrade.
+A small fix needs no plan artifact. Cross-cutting work or public-interface decisions need enough durable detail to prevent a rewrite. Additional steps alone do not revoke approval. Stop for a new consequential decision, a change in scope, or missing execution authority. Respect requested review, merge, and deployment boundaries.

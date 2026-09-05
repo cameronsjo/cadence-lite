@@ -8,27 +8,33 @@ markdown. If your agent harness can load a directory of skills, it can run this.
 
 ## The rhythm
 
-Four skills sit on a line, in order. The fifth rides alongside it.
+Four skills mark phases when those phases are needed. Capture rides alongside them.
 
 ```text
-  intro  ──▶  attune  ──▶  [ execute ]  ──▶  polish  ──▶  outro
-                                  │
-                               capture   (any time, then back to the line)
+  intro (no task yet)        attune (unresolved choices)
+          │                          │
+          └──────▶  execute  ◀────────┘
+                       │
+          polish (PR preparation) ──▶ outro (session end)
+
+  A specified task starts at execute.
+  Capture saves side ideas, then returns to the active phase.
 ```
 
 | Skill     | When it runs                          | What it prevents                                                     |
 | --------- | ------------------------------------- | -------------------------------------------------------------------- |
 | `intro`   | First message is a greeting, no task  | Starting blind — redoing finished work, missing an in-flight plan     |
-| `attune`  | Before any implementation work        | The first design decision the user sees being one already built       |
+| `attune`  | A requested plan or consequential unresolved choices | Building an unapproved decision or reopening settled choices |
 | `polish`  | Before opening or updating a PR       | Shipping the defect a review pass would have caught                   |
 | `outro`   | Ending the session                    | Work that ended in conversation but never on disk                     |
 | `capture` | An idea lands that is not the work    | A good idea dying in scrollback, or derailing the task it interrupted |
 
-There is no `execute` skill. Execution is the work itself — the plan written during
-`attune` is what governs it.
+There is no `execute` skill. Execution follows the user's request and any approved
+plan. A specified small fix can proceed directly; the rhythm does not require a
+planning ceremony for every edit.
 
-Each skill is short on purpose. They describe a sequence and the failure that sequence
-exists to prevent; they name no tools, no vendor, and no specific agent, so the same
+Each skill is short on purpose. They describe outcomes, decision boundaries, and
+non-obvious constraints; they name no tools, no vendor, and no specific agent, so the same
 file works unchanged across harnesses.
 
 ## Wiring it into a harness
@@ -84,10 +90,11 @@ Two things are worth keeping if you fork:
 
 ## Relationship to full cadence
 
-cadence-lite is the subset that survives having no runtime. The full methodology adds
-enforcement, multi-session coordination, dispatch routing, and a much wider skill
-surface — none of which is portable to a harness without a plugin system. If your
-harness has one, you want more than this.
+cadence-lite works without a plugin runtime. The full methodology adds enforcement,
+multi-session coordination, dispatch routing, and a wider skill surface. Choose
+those capabilities when they help your work; runtime availability alone is not a
+reason to install a larger instruction set. Lite remains useful on hosts that also
+support plugins or hooks.
 
 ## License
 
