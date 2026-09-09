@@ -10,7 +10,7 @@ markdown. If your agent harness can load a directory of skills, it can run this.
 ## The rhythm
 
 Four skills mark phases when those phases are needed. Capture rides alongside them.
-Triage and adapt are optional workflows, not additional phases.
+Triage, adapt, and improve-repo are optional workflows, not additional phases.
 
 ```text
   intro (no task yet)        attune (unresolved choices)
@@ -32,6 +32,7 @@ Triage and adapt are optional workflows, not additional phases.
 | `capture` | An idea lands that is not the work    | A good idea dying in scrollback, or derailing the task it interrupted |
 | `triage`  | Reviewing accumulated ideas or a backlog | Stale or duplicated work crowding out useful next steps |
 | `adapt`   | Learning from observed workflow friction | Repeating a mistake or adding a permanent rule for one incident |
+| `improve-repo` | Improving a repository's delivery path through a real task | Cleaning up instructions without improving the path to verified changes |
 
 There is no `execute` skill. Execution follows the user's request and any approved
 plan. A specified small fix can proceed directly; the rhythm does not require a
@@ -41,6 +42,11 @@ Capture saves an idea; triage recommends which saved ideas to pursue, defer, or 
 Adapt proposes the smallest evidence-backed workflow improvement, including no
 change when that is the better outcome. Neither recommendations nor reflection
 authorize implementation or changes to trackers, instructions, or memory.
+
+Improve-repo owns a bounded repository-delivery improvement, from a real task's
+friction through authorized changes and verification. An audit-only request stays
+read-only. It is not a mandatory wrapper around ordinary feature work, and it
+does not grant permission to merge or deploy.
 
 Each skill is short on purpose. They describe outcomes, decision boundaries, and
 non-obvious constraints; they name no tools, no vendor, and no specific agent, so the same
@@ -65,8 +71,8 @@ for skill in intro attune polish outro capture; do
 done
 ```
 
-The example installs the five-skill rhythm. To add either optional workflow, repeat
-the loop with `for skill in triage adapt; do` (or just the name you want).
+The example installs the five-skill rhythm. To add optional workflows, repeat
+the loop with `for skill in triage adapt improve-repo; do` (or just the name you want).
 
 Symlinks rather than copies so a `git pull` in the clone updates every harness at once.
 If your harness will not follow symlinks, copy the directories instead and re-copy after
