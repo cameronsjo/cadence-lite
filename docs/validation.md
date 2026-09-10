@@ -14,6 +14,9 @@ On 2026-09-10, Node.js 24.19.0 and Python 3.12.14:
 | node --test tests/*.test.mjs | 32 tests passed | Native installation, repeat/update/collision behavior, TOML parsing, isolated skill references, and Pi fixture-process behavior |
 | git diff --check 80ec311 | Passed | No whitespace errors across the full change from the materialized base snapshot |
 
+In the published repository, the equivalent base is
+53a146b12f282c82558b08c1fb384eef940322b7; use that SHA instead of the local snapshot.
+
 The Pi process tests include literal task argument handling, model/tool/prompt
 propagation, prompt cleanup, unsuccessful exit, no report, malformed JSON,
 invalid event/content/status shapes, model failure, truncated completion, output

@@ -1,7 +1,7 @@
 # Portable Cadence Lite agents
 
-Status: implementation and local validation complete; publishing for review
-Next action: publish the stacked PR, then maintainer review and live harness acceptance.
+Status: implemented, locally validated, and published as draft PR #4
+Next action: live harness acceptance and maintainer review of the stacked PR.
 
 ## Goal and approved approach
 
@@ -36,7 +36,7 @@ with existing files. Keep review failures and missing capabilities visible.
 - [x] Add installation recipes, safe installer, optional Pi dispatch, and CI.
 - [x] Validate generated files, collision behavior, packaging, and dispatch failures.
 - [x] Exercise the revised review workflow on this change and record limitations.
-- [ ] Publish a branch and PR stacked on PR #1; leave main and merges untouched.
+- [x] Publish a branch and PR stacked on PR #1; leave main and merges untouched.
 
 ## Completion evidence
 
@@ -44,3 +44,7 @@ See [validation evidence](../validation.md): 60 generated artifacts verified,
 32 tests passed, and independent review findings corrected with regression
 coverage. Live model-backed acceptance requires the corresponding harness and
 credentials and must not be implied by fixture tests.
+
+Delivery: [PR #4](https://github.com/cameronsjo/cadence-lite/pull/4), targeting
+PR #1's refactor branch. Land the prerequisite first, then retarget this PR to
+main using the repository's maintainer-signed local merge procedure.
