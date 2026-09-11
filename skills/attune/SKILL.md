@@ -1,6 +1,6 @@
 ---
 name: attune
-description: Plan or investigate work with consequential unresolved choices before implementation. Use for a requested plan; not a specified small fix or continuation of approved work.
+description: Plan or investigate work with consequential unresolved choices before implementation, writing and committing a plan file for substantial decisions. Use for a requested plan; not a specified small fix or continuation of approved work.
 ---
 
 # Attune
@@ -23,10 +23,10 @@ An investigation request can end with evidence and a recommendation. When invest
 ## Steps
 
 1. **Establish the outcome.** Read the relevant evidence and identify what completion means within the request. Use existing context and approval; ask only for information that materially changes the result.
-2. **Resolve consequential choices.** Recommend an approach and explain real alternatives when they matter. A request to draft or propose a plan includes presenting it. Preserve an explicit request to hold a draft. A plan-only request does not authorize implementation.
+2. **Resolve consequential choices.** Recommend an approach and explain real alternatives when they matter. A request to draft or propose a plan includes presenting it. Preserve an explicit request to hold a draft. Do not implement a consequential approach the user has not seen — approval of the goal is not approval of the approach. A plan-only request does not authorize implementation.
 3. **Persist substantial decisions.** Before implementing an approved substantial plan, commit it at the repository's plan location (default `docs/plans/YYYY-MM-DD-<slug>.md`) with the goal, approach, real alternatives, checklist, and completion evidence.
-4. **Complete authorized work.** Carry the approved approach through implementation, relevant verification, and requested delivery. Fix failures caused by the change and rerun affected checks. Update the plan with the work; do not ask again for settled choices.
+4. **Complete authorized work.** Carry the approved approach through implementation, relevant verification, and requested delivery. Fix failures caused by the change and rerun affected checks. Update the plan with the work if a plan exists; do not ask again for settled choices.
 
 ## Scale to fit
 
-A small fix needs no plan artifact. Cross-cutting work or public-interface decisions need enough durable detail to prevent a rewrite. Additional steps alone do not revoke approval. Stop for a new consequential decision, a change in scope, or missing execution authority. Respect requested review, merge, and deployment boundaries.
+A small fix needs no plan artifact. Cross-cutting work or public-interface decisions need enough durable detail to prevent a rewrite. Additional steps alone do not revoke approval. Stop for a new consequential decision, a change in scope, or missing execution authority. Respect requested review, merge, deployment, push, and close-out boundaries — completing the work never implies pushing it or leaving it closed unless that was requested.
