@@ -1,5 +1,5 @@
 ---
-description: "Update documentation from verified behavior after implementation; report anything that cannot be established."
+description: "Update documentation from verified behavior after implementation, writing and editing docs and running verification commands; report anything that cannot be established."
 mode: subagent
 ---
 

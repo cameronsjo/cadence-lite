@@ -38,7 +38,7 @@
   },
   {
     "id": "test-author",
-    "description": "Write focused behavioral and regression tests for changed code; report product bugs without changing the implementation.",
+    "description": "Write focused behavioral and regression tests for changed code, running the test suite to verify them; report product bugs without changing the implementation.",
     "group": "core",
     "access": "tests",
     "phases": [
@@ -96,7 +96,7 @@
   },
   {
     "id": "doc-writer",
-    "description": "Update documentation from verified behavior after implementation; report anything that cannot be established.",
+    "description": "Update documentation from verified behavior after implementation, writing and editing docs and running verification commands; report anything that cannot be established.",
     "group": "optional",
     "access": "docs",
     "phases": [

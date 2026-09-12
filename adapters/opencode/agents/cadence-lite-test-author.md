@@ -1,5 +1,5 @@
 ---
-description: "Write focused behavioral and regression tests for changed code; report product bugs without changing the implementation."
+description: "Write focused behavioral and regression tests for changed code, running the test suite to verify them; report product bugs without changing the implementation."
 mode: subagent
 ---
 
