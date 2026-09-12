@@ -1,6 +1,6 @@
 ---
 name: improve-repo
-description: Improve a repository's delivery workflow using a real task to find and fix demonstrated friction. Not for routine feature work, an automatic retrospective, or unbounded cleanup.
+description: Improve a repository's delivery workflow using a real task to find and fix demonstrated friction — may rewrite agent instructions and skills, remove a test or check with evidence it's obsolete, and delegate bounded work. Not for routine feature work, an automatic retrospective, or unbounded cleanup.
 ---
 
 # Improve Repository Delivery
