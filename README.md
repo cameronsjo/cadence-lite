@@ -1,128 +1,184 @@
 # cadence-lite
 
-A small set of skills for session rhythm, backlog decisions, and targeted workflow
-improvements.
+A small, portable workflow for coding agents: orient, resolve consequential
+choices, build, review, and leave enough context to resume.
 
-This is the portable core of a larger methodology — the part that needs no hooks, no
-binaries, and no plugin runtime. Every skill is a single `SKILL.md` file of plain
-markdown. If your agent harness can load a directory of skills, it can run this.
+The skills work without hooks, a plugin runtime, or native subagents. Optional
+agent adapters add independent review and bounded test/documentation work.
+
+## Install the skills
+
+With Node.js and Git available, install the five core skills into the current
+project for the harnesses you use:
+
+    npx skills add cameronsjo/cadence-lite \
+      --skill intro attune polish outro capture \
+      --agent pi codex claude-code opencode
+
+Remove harness names you do not use. Add --global for personal installation
+across projects. Preview discovery with:
+
+    npx skills add cameronsjo/cadence-lite --list
+
+Optional workflows can be selected separately:
+
+    npx skills add cameronsjo/cadence-lite \
+      --skill triage adapt improve-repo --agent codex
+
+The [skills CLI](https://github.com/vercel-labs/skills) installs skill folders and
+their references; it does not register the native subagents below. Use
+npx skills update to update skills installed this way.
+
+Pi also supports a skills-only Git package:
+
+    pi install git:github.com/cameronsjo/cadence-lite
+
+The explicit Pi manifest loads all eight skills, including the three optional
+workflows, and no extensions. Use Pi's resource configuration to disable unwanted
+skills. Choose either Pi's package manager or npx skills for a given installation,
+so you do not load the same skills twice. See [Pi packages](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/packages.md).
+
+These commands follow the selected repository revision; they do not verify the
+maintainer's signing identity. Consumers enforcing the signature policy in
+[CONTRIBUTING.md](CONTRIBUTING.md) should install from a checkout already verified
+against their trusted maintainer key, using npx skills add ./cadence-lite with the
+same selection flags. Verify updates before reinstalling them. A lock or content
+hash identifies content; it does not establish who signed it.
 
 ## The rhythm
 
-Four skills mark phases when those phases are needed. Capture rides alongside them.
-Triage, adapt, and improve-repo are optional workflows, not additional phases.
+| Skill | Use it when | Result |
+| --- | --- | --- |
+| [intro](skills/intro/SKILL.md) | A session opens with a greeting or desk-status request | Current state and useful next moves |
+| [attune](skills/attune/SKILL.md) | Planning is requested or consequential choices remain | A reviewed plan with status, next action, and completion criteria |
+| [polish](skills/polish/SKILL.md) | Preparing or reviewing a branch for a PR | Findings, authorized fixes, and evidence for the final change |
+| [outro](skills/outro/SKILL.md) | Ending the session | Durable stopping point and disposition of loose ends |
+| [capture](skills/capture/SKILL.md) | A side idea interrupts the task | A durable note and return to the task |
+| [triage](skills/triage/SKILL.md) | Reviewing accumulated ideas or a backlog | An ordered shortlist with reasons |
+| [adapt](skills/adapt/SKILL.md) | Learning from demonstrated workflow friction | A proportionate improvement or a reason to make no change |
+| [improve-repo](skills/improve-repo/SKILL.md) | Improving repository delivery through a real task | Verified improvements within a bounded scope |
 
-```text
-  intro (no task yet)        attune (unresolved choices)
-          │                          │
-          └──────▶  execute  ◀────────┘
-                       │
-          polish (PR preparation) ──▶ outro (session end)
+There is no execute skill. Specified small changes proceed directly. Existing
+approval persists; a request for analysis does not authorize implementation.
+Capture, triage, and reflection do not automatically authorize external writes.
 
-  A specified task starts at execute.
-  Capture saves side ideas, then returns to the active phase.
-```
+Polish identifies the actual repository, base, and complete changed-file set;
+selects relevant reviewers; records findings and dispositions; and checks the
+final change. A missing or failed review stays visible. Plan review is conditional
+on a substantial plan, with additional roles selected by the affected surface.
 
-| Skill     | When it runs                          | What it prevents                                                     |
-| --------- | ------------------------------------- | -------------------------------------------------------------------- |
-| `intro`   | First message is a greeting, no task  | Starting blind — redoing finished work, missing an in-flight plan     |
-| `attune`  | A requested plan or consequential unresolved choices | Building an unapproved decision or reopening settled choices |
-| `polish`  | Before opening or updating a PR       | Shipping the defect a review pass would have caught                   |
-| `outro`   | Ending the session                    | Work that ended in conversation but never on disk                     |
-| `capture` | An idea lands that is not the work    | A good idea dying in scrollback, or derailing the task it interrupted |
-| `triage`  | Reviewing accumulated ideas or a backlog | Stale or duplicated work crowding out useful next steps |
-| `adapt`   | Learning from observed workflow friction | Repeating a mistake or adding a permanent rule for one incident |
-| `improve-repo` | Improving a repository's delivery path through a real task | Cleaning up instructions without improving the path to verified changes |
+## Optional native agents
 
-There is no `execute` skill. Execution follows the user's request and any approved
-plan. A specified small fix can proceed directly; the rhythm does not require a
-planning ceremony for every edit.
+All eleven roles are defined once under [agents/](agents/manifest.json).
+Generated skill-local copies let Attune and Polish use their briefs even when
+native agents are absent. Native names begin with cadence-lite- to coexist with
+full Cadence and other agent collections.
 
-Capture saves an idea; triage recommends which saved ideas to pursue, defer, or drop.
-Adapt proposes the smallest evidence-backed workflow improvement, including no
-change when that is the better outcome. Neither recommendations nor reflection
-authorize implementation or changes to trackers, instructions, or memory.
+| Installation group | Roles |
+| --- | --- |
+| core (default) | plan-reviewer, code-reviewer, security-reviewer, agent-experience-reviewer, test-author |
+| all | The core roles plus red-team-reviewer, security-posture-reviewer, user-experience-reviewer, developer-experience-reviewer, operability-reviewer, doc-writer |
 
-Improve-repo owns a bounded repository-delivery improvement, from a real task's
-friction through authorized changes and verification. An audit-only request stays
-read-only. It is not a mandatory wrapper around ordinary feature work, and it
-does not grant permission to merge or deploy.
+Core means available, not compulsory on every change. Reviewers return findings;
+test-author writes tests against required behavior without changing production
+code; doc-writer updates assigned documentation from verified behavior.
+The roster excludes Cadence Voice and domain-specific plugin agents.
 
-Each skill is short on purpose. They describe outcomes, decision boundaries, and
-non-obvious constraints; they name no tools, no vendor, and no specific agent, so the same
-file works unchanged across harnesses.
+Clone a stable checkout and run the installer with Node.js 22 or newer:
 
-## Wiring it into a harness
+    git clone https://github.com/cameronsjo/cadence-lite.git
+    cd cadence-lite
+    node scripts/install-agents.mjs --agent codex --project /absolute/path/to/project --dry-run
+    node scripts/install-agents.mjs --agent codex --project /absolute/path/to/project
 
-Clone the repo somewhere stable, then symlink each skill into whatever directory your
-harness reads skills from.
+Choose one of codex, claude-code, opencode, or pi. Add --group all for the full
+roster. Replace --project PATH with --global for a personal install.
+Restart the harness after installation.
 
-```sh
-git clone https://github.com/cameronsjo/cadence-lite.git ~/.cadence-lite
-```
+| Harness | Project location | Personal location |
+| --- | --- | --- |
+| Claude Code | .claude/agents/ | ~/.claude/agents/ |
+| Codex | .codex/agents/ | ~/.codex/agents/ |
+| OpenCode | .opencode/agents/ | ~/.config/opencode/agents/ |
+| Pi | .pi/extensions/cadence-lite/ | ~/.pi/agent/extensions/cadence-lite/ |
 
-```sh
-# Point this at your harness's skills directory.
-SKILL_DIR="$HOME/.your-harness/skills"
+The installer copies definitions and records their hashes. Repeating the same
+install is harmless. After updating and verifying your checkout, use the same
+command with --update: it replaces only files unchanged since installation.
+Locally edited or conflicting files are preserved and cause the operation to
+stop before writing. Reconcile those files deliberately before retrying.
+Symlinked destinations are refused; use the real destination checkout/location
+or install manually. Unselected existing roles are retained.
 
-mkdir -p "$SKILL_DIR"
-for skill in intro attune polish outro capture; do
-  ln -sfn "$HOME/.cadence-lite/skills/$skill" "$SKILL_DIR/$skill"
-done
-```
+To remove an installation, remove only the cadence-lite-prefixed definitions and
+their .cadence-lite-install.json from the chosen native agent directory. For Pi,
+remove the dedicated extensions/cadence-lite directory. Skill removal is separate:
+use the installer that placed the skills.
 
-The example installs the five-skill rhythm. To add optional workflows, repeat
-the loop with `for skill in triage adapt improve-repo; do` (or just the name you want).
+### How dispatch differs by harness
 
-Symlinks rather than copies so a `git pull` in the clone updates every harness at once.
-If your harness will not follow symlinks, copy the directories instead and re-copy after
-each pull.
+The adapters use the documented
+[Claude Code](https://code.claude.com/docs/en/sub-agents),
+[Codex](https://learn.chatgpt.com/docs/agent-configuration/subagents), and
+[OpenCode](https://opencode.ai/docs/agents/) formats. They omit model and memory
+settings so the harness supplies its normal configuration.
 
-Pick up changes later with:
+Claude Code, OpenCode, and Pi reviewers have file-reading tools and no shell or
+write tools by default. Codex reviewers use its read-only sandbox. This allows
+source inspection without claiming live command execution; the caller runs
+authorized checks and supplies evidence. Test and documentation writers have
+editing capabilities, bounded by their task instructions and host permissions.
+A tool list alone is not an OS sandbox.
 
-```sh
-git -C ~/.cadence-lite pull --ff-only
-```
+Pi's optional adapter registers cadence_lite_dispatch. A request such as
+"Use cadence-lite-code-reviewer on this branch" starts a fresh Pi process in
+the current directory, with the parent's selected model and thinking level.
+It accepts one bounded task per call and allows at most four concurrent children.
+It uses Pi on PATH, so launch parent and child from the same Pi installation.
 
-### What a harness needs to support
+Children retain project context and normally discovered extensions. They disable
+skill/prompt-template loading and this extension's recursive dispatch.
+Parent-only runtime settings and explicitly supplied extension paths are not
+automatically inherited. If those provide required controls, configure the child
+equivalently or use an inline review; do not use dispatch to evade a restriction.
+The extension adds no sandbox or approval bypass.
 
-- **A skills directory** it scans at session start.
-- **`SKILL.md` with YAML frontmatter** carrying `name` and `description`. The
-  `description` is the routing signal — it is what the agent matches against to decide
-  whether the skill applies, so keep it intact if you adapt these.
+Child output is bounded; launch errors, malformed output, model errors, incomplete
+responses, cancellation, timeout, and empty reports fail visibly. A child finding
+real defects is still a completed review, not a transport failure. Prompt files
+are removed when the child finishes, and no child transcript is retained.
+Pi supports this process architecture through its
+[official subagent example](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/subagent/README.md).
 
-That is the whole contract. There are no scripts, no dependencies, and nothing to build.
+## Updating and validating the package
 
-## Adapting them
+The agent manifest, role bodies, and shared contract are the source of truth.
+After changing them:
 
-These are behavioral instructions, not documentation — an agent executes them. Edit them
-the way you would edit code, and expect a change in wording to change what the agent
-does.
+    npm run generate
+    npm run check
+    npm test
 
-Two things are worth keeping if you fork:
+Generation and installation require Node.js 22+. Tests also use Python 3.11+
+to parse actual Codex TOML. There are no npm dependencies or build step for
+skill-only consumers. CI checks generated freshness, isolated skill references,
+native installation and update behavior, and the Pi process boundary.
 
-- **The "what this prevents" line.** Each skill names the specific failure it exists to
-  stop. That sentence is what keeps the skill from being followed as ritual.
-- **The `NOT for …` clause in each description.** Skills without a stated boundary get
-  invoked for adjacent work they were never shaped for.
+These checks establish packaging and fixture behavior. They do not establish
+live acceptance on every harness/model. See [validation](docs/validation.md)
+for the exercised boundaries and remaining checks.
 
-## Relationship to full cadence
+## Relationship to full Cadence
 
-cadence-lite works without a plugin runtime. The full methodology adds enforcement,
-multi-session coordination, dispatch routing, and a wider skill surface. Choose
-those capabilities when they help your work; runtime availability alone is not a
-reason to install a larger instruction set. Lite remains useful on hosts that also
-support plugins or hooks.
+Lite keeps portable workflow decisions and specialist briefs. Full Cadence adds
+runtime enforcement, coordination, routing, and a wider skill surface. Install
+those capabilities when they help the work; a harness supporting plugins is
+not by itself a reason to load a larger instruction set.
 
-## License
+## License and contributions
 
-Apache-2.0 with the Commons Clause — see [`LICENSE`](LICENSE). Note that this
-combination is **source-available, not OSI-approved open source**: the Commons Clause
-withholds the right to sell the software. Read it before building anything commercial on
-top.
+Apache-2.0 with the Commons Clause; see [LICENSE](LICENSE). This is
+source-available, not OSI-approved open source.
 
-## Contributing
-
-See [`CONTRIBUTING.md`](CONTRIBUTING.md). Note the merge process is deliberately
-non-standard — pull requests are merged locally and pushed, never merged through the
-GitHub web interface.
+See [CONTRIBUTING.md](CONTRIBUTING.md). Maintainer-signed local merging remains
+the merge process; the adapters and CI do not change it.

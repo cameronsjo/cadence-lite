@@ -1,0 +1,19 @@
+{
+  "name": "cadence-lite",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "generate": "node scripts/generate-agents.mjs",
+    "check": "node scripts/generate-agents.mjs --check",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "pi": {
+    "skills": [
+      "./skills"
+    ]
+  }
+}

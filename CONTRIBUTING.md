@@ -56,14 +56,22 @@ Useful contributions:
 Less useful:
 
 - Restating a step in more words.
-- Adding tool-specific or vendor-specific instructions. The skills are deliberately
-  harness-neutral; anything naming a specific agent, tool, or command belongs in the
-  README's wiring section, not in a `SKILL.md`.
+- Adding vendor-specific instructions to portable skills or role bodies. Native
+  tool grants and formats belong in the adapters and generator. Role names and
+  their task contracts may be referenced from skills.
 - Adding skills that duplicate existing behavior or turn ordinary work into a
   mandatory ceremony. Catalog size and instruction length are costs, not goals.
 
 ## Testing a change
 
-There is no build and no test suite. The way to check a skill edit is to run it: wire
-the modified file into a real harness and use it on real work, not on a constructed
-example. Skill markdown is behavioral code, and the only meaningful test is behavior.
+Edit role bodies and the shared contract under `agents/`; edit role metadata in
+`agents/manifest.json`. Run `npm run generate` after a source change. Native
+definitions and skill-local agent briefs are generated, not separately maintained.
+
+Run `npm run check`, `npm test`, and `git diff --check`. Node.js 22+ is required;
+tests also use Python 3.11+ for TOML parsing. These checks establish packaging,
+reference closure, installer ownership behavior, and the Pi process protocol.
+
+Skill markdown is behavioral code. Also exercise a changed workflow on real work
+and record the target, observed result, and limits. An isolated fixture or a parser
+check is not live harness acceptance. Keep verification claims bounded by evidence.

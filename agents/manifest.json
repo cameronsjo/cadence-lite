@@ -1,0 +1,106 @@
+[
+  {
+    "id": "plan-reviewer",
+    "description": "Review a substantial plan for contradictions, missing requirements, and tasks an implementer cannot execute.",
+    "group": "core",
+    "access": "review",
+    "phases": [
+      "attune"
+    ]
+  },
+  {
+    "id": "code-reviewer",
+    "description": "Review a change for actionable correctness, edge-case, regression, and unnecessary-complexity defects.",
+    "group": "core",
+    "access": "review",
+    "phases": [
+      "polish"
+    ]
+  },
+  {
+    "id": "security-reviewer",
+    "description": "Review security-sensitive code and agent instructions for exploitable flaws or undeclared capabilities.",
+    "group": "core",
+    "access": "review",
+    "phases": [
+      "polish"
+    ]
+  },
+  {
+    "id": "agent-experience-reviewer",
+    "description": "Review skills, agent instructions, tool schemas, and machine-consumed output from a context-poor agent's perspective.",
+    "group": "core",
+    "access": "review",
+    "phases": [
+      "attune",
+      "polish"
+    ]
+  },
+  {
+    "id": "test-author",
+    "description": "Write focused behavioral and regression tests for changed code, running the test suite to verify them; report product bugs without changing the implementation.",
+    "group": "core",
+    "access": "tests",
+    "phases": [
+      "polish"
+    ]
+  },
+  {
+    "id": "red-team-reviewer",
+    "description": "Check consequential operational assumptions, ordering, rollback, and verification recipes against available evidence.",
+    "group": "optional",
+    "access": "review",
+    "phases": [
+      "attune",
+      "polish"
+    ]
+  },
+  {
+    "id": "security-posture-reviewer",
+    "description": "Review plans that introduce, activate, weaken, remove, or expose a security control, including unchanged implementation.",
+    "group": "optional",
+    "access": "review",
+    "phases": [
+      "attune"
+    ]
+  },
+  {
+    "id": "user-experience-reviewer",
+    "description": "Review user-facing flows, instructions, prompts, and error states for clear decisions and recovery.",
+    "group": "optional",
+    "access": "review",
+    "phases": [
+      "attune",
+      "polish"
+    ]
+  },
+  {
+    "id": "developer-experience-reviewer",
+    "description": "Review setup, build, test, CI, and contributor workflows for executable instructions and useful feedback.",
+    "group": "optional",
+    "access": "review",
+    "phases": [
+      "attune",
+      "polish"
+    ]
+  },
+  {
+    "id": "operability-reviewer",
+    "description": "Review retries, partial failure, migrations, background work, diagnostics, recovery, and auditability.",
+    "group": "optional",
+    "access": "review",
+    "phases": [
+      "attune",
+      "polish"
+    ]
+  },
+  {
+    "id": "doc-writer",
+    "description": "Update documentation from verified behavior after implementation, writing and editing docs and running verification commands; report anything that cannot be established.",
+    "group": "optional",
+    "access": "docs",
+    "phases": [
+      "polish"
+    ]
+  }
+]
