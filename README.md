@@ -1,6 +1,7 @@
 # cadence-lite
 
-Five skills that give a coding-agent session a beginning, a middle, and an end.
+A small set of skills for session rhythm, backlog decisions, and targeted workflow
+improvements.
 
 This is the portable core of a larger methodology — the part that needs no hooks, no
 binaries, and no plugin runtime. Every skill is a single `SKILL.md` file of plain
@@ -8,27 +9,47 @@ markdown. If your agent harness can load a directory of skills, it can run this.
 
 ## The rhythm
 
-Four skills sit on a line, in order. The fifth rides alongside it.
+Four skills mark phases when those phases are needed. Capture rides alongside them.
+Triage, adapt, and improve-repo are optional workflows, not additional phases.
 
 ```text
-  intro  ──▶  attune  ──▶  [ execute ]  ──▶  polish  ──▶  outro
-                                  │
-                               capture   (any time, then back to the line)
+  intro (no task yet)        attune (unresolved choices)
+          │                          │
+          └──────▶  execute  ◀────────┘
+                       │
+          polish (PR preparation) ──▶ outro (session end)
+
+  A specified task starts at execute.
+  Capture saves side ideas, then returns to the active phase.
 ```
 
 | Skill     | When it runs                          | What it prevents                                                     |
 | --------- | ------------------------------------- | -------------------------------------------------------------------- |
 | `intro`   | First message is a greeting, no task  | Starting blind — redoing finished work, missing an in-flight plan     |
-| `attune`  | Before any implementation work        | The first design decision the user sees being one already built       |
+| `attune`  | A requested plan or consequential unresolved choices | Building an unapproved decision or reopening settled choices |
 | `polish`  | Before opening or updating a PR       | Shipping the defect a review pass would have caught                   |
 | `outro`   | Ending the session                    | Work that ended in conversation but never on disk                     |
 | `capture` | An idea lands that is not the work    | A good idea dying in scrollback, or derailing the task it interrupted |
+| `triage`  | Reviewing accumulated ideas or a backlog | Stale or duplicated work crowding out useful next steps |
+| `adapt`   | Learning from observed workflow friction | Repeating a mistake or adding a permanent rule for one incident |
+| `improve-repo` | Improving a repository's delivery path through a real task | Cleaning up instructions without improving the path to verified changes |
 
-There is no `execute` skill. Execution is the work itself — the plan written during
-`attune` is what governs it.
+There is no `execute` skill. Execution follows the user's request and any approved
+plan. A specified small fix can proceed directly; the rhythm does not require a
+planning ceremony for every edit.
 
-Each skill is short on purpose. They describe a sequence and the failure that sequence
-exists to prevent; they name no tools, no vendor, and no specific agent, so the same
+Capture saves an idea; triage recommends which saved ideas to pursue, defer, or drop.
+Adapt proposes the smallest evidence-backed workflow improvement, including no
+change when that is the better outcome. Neither recommendations nor reflection
+authorize implementation or changes to trackers, instructions, or memory.
+
+Improve-repo owns a bounded repository-delivery improvement, from a real task's
+friction through authorized changes and verification. An audit-only request stays
+read-only. It is not a mandatory wrapper around ordinary feature work, and it
+does not grant permission to merge or deploy.
+
+Each skill is short on purpose. They describe outcomes, decision boundaries, and
+non-obvious constraints; they name no tools, no vendor, and no specific agent, so the same
 file works unchanged across harnesses.
 
 ## Wiring it into a harness
@@ -49,6 +70,9 @@ for skill in intro attune polish outro capture; do
   ln -sfn "$HOME/.cadence-lite/skills/$skill" "$SKILL_DIR/$skill"
 done
 ```
+
+The example installs the five-skill rhythm. To add optional workflows, repeat
+the loop with `for skill in triage adapt improve-repo; do` (or just the name you want).
 
 Symlinks rather than copies so a `git pull` in the clone updates every harness at once.
 If your harness will not follow symlinks, copy the directories instead and re-copy after
@@ -84,10 +108,11 @@ Two things are worth keeping if you fork:
 
 ## Relationship to full cadence
 
-cadence-lite is the subset that survives having no runtime. The full methodology adds
-enforcement, multi-session coordination, dispatch routing, and a much wider skill
-surface — none of which is portable to a harness without a plugin system. If your
-harness has one, you want more than this.
+cadence-lite works without a plugin runtime. The full methodology adds enforcement,
+multi-session coordination, dispatch routing, and a wider skill surface. Choose
+those capabilities when they help your work; runtime availability alone is not a
+reason to install a larger instruction set. Lite remains useful on hosts that also
+support plugins or hooks.
 
 ## License
 
