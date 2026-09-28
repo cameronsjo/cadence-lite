@@ -23,7 +23,7 @@ across projects. Preview discovery with:
 Optional workflows can be selected separately:
 
     npx skills add cameronsjo/cadence-lite \
-      --skill triage adapt improve-repo --agent codex
+      --skill triage adapt improve-repo writing-pull-requests --agent codex
 
 The [skills CLI](https://github.com/vercel-labs/skills) installs skill folders and
 their references; it does not register the native subagents below. Use
@@ -33,7 +33,7 @@ Pi also supports a skills-only Git package:
 
     pi install git:github.com/cameronsjo/cadence-lite
 
-The explicit Pi manifest loads all eight skills, including the three optional
+The explicit Pi manifest loads all nine skills, including the four optional
 workflows, and no extensions. Use Pi's resource configuration to disable unwanted
 skills. Choose either Pi's package manager or npx skills for a given installation,
 so you do not load the same skills twice. See [Pi packages](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/packages.md).
@@ -57,6 +57,7 @@ hash identifies content; it does not establish who signed it.
 | [triage](skills/triage/SKILL.md) | Reviewing accumulated ideas or a backlog | An ordered shortlist with reasons |
 | [adapt](skills/adapt/SKILL.md) | Learning from demonstrated workflow friction | A proportionate improvement or a reason to make no change |
 | [improve-repo](skills/improve-repo/SKILL.md) | Improving repository delivery through a real task | Verified improvements within a bounded scope |
+| [writing-pull-requests](skills/writing-pull-requests/SKILL.md) | Writing a PR description, commit message, or review comment | Text a reader who missed the session can act on |
 
 There is no execute skill. Specified small changes proceed directly. Existing
 approval persists; a request for analysis does not authorize implementation.

@@ -61,6 +61,8 @@ completed (with findings or none), partial, unavailable, failed, or inline.
 An empty return is failed, not completed. Name checks actually run, their results,
 and remaining blockers. Evidence applies only to the examined state.
 
-Open or update a PR only when the requested delivery authorizes it. A polish-only
-request ends with the reviewed change and findings. Preserve review-only,
-no-commit, no-push, leave-open, merge, and deployment boundaries.
+Open or update a PR only when the requested delivery authorizes it. If the
+optional writing-pull-requests skill is installed, use it for the title and
+description. A polish-only request ends with the reviewed change and findings.
+Preserve review-only, no-commit, no-push, leave-open, merge, and deployment
+boundaries.
