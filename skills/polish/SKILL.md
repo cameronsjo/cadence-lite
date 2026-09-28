@@ -51,7 +51,7 @@ checks and review affected by a subsequent fix; unchanged evidence can be reused
 A source inspection, generated manifest check, or mocked child process does not
 prove a live integration works. Say which boundary remains untested.
 
-Add the project's changelog entry for consumer-visible changes. Check for
+Follow the project's changelog convention for consumer-visible changes. Check for
 accidental files, debug output, and scope creep after substantive work.
 
 ## Return evidence and complete delivery
