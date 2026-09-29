@@ -1,6 +1,6 @@
 ---
 name: writing-pull-requests
-description: Write a pull request title and description, a commit message, or a review comment for a change. Not for reviewing or fixing the change, or for other prose.
+description: Write a pull request title and description, a commit message, or a review comment for a change. Not for finding the review's findings or fixing the change, or for other prose.
 ---
 
 # Writing pull requests
@@ -68,16 +68,23 @@ Say what was not verified when a reader could assume it was: "Not run on Windows
 ## Security fixes
 
 Users of a fixed vulnerability need to know what was exposed, which released
-versions are affected, and what to do. A public repository's PR is readable as
-soon as it opens, and a private one's by everyone later given access. So unless
-the repository is private and the fix is already released, the PR says only that
-it includes a security fix and points to the advisory or private tracker. The
-exposure details go in the advisory, published with the fixed release. This holds
+versions are affected, and what to do. Everything written around the change is
+readable before the fix ships: on a public repository the title, description,
+branch name, commit messages, and review comments are public once pushed or
+posted, and on a private one everyone later given access reads them. So unless
+the repository is private and the fix is already released, each of them says
+only that the change includes a security fix and points to the advisory or
+private tracker. If the repository has neither, ask the maintainer where the
+details belong rather than creating one unasked or writing them into the PR.
+The exposure details go in the advisory, published with the fixed release. A
+public diff shows the flaw whatever the description says, so where the host
+offers a private advisory workflow, develop an unreleased fix there. This holds
 even when the fix was incidental to the PR.
 
 ## Commit messages
 
-The same test applies; a commit body outlives the PR.
+The same test applies; a commit body outlives the PR. For a security fix, the
+limits in Security fixes above apply to the subject and body too.
 
 - Follow the repository's commit convention. Otherwise use an imperative subject
   of about 70 characters and a body, wrapped near 80, that says why.
@@ -92,9 +99,11 @@ The same test applies; a commit body outlives the PR.
 
 Open with the verdict: ready to merge, or what blocks it. Then one finding per
 line, anchored to a file and line: `src/parse.rs:42: off-by-one drops the last
-row`. Post line-specific findings inline on the diff where the host supports it.
+row`. When posting is requested, put line-specific findings inline on the diff
+where the host supports it.
 A finding from a second pass reads the same as one from the first; do not number
-rounds.
+rounds. On an unreleased security fix, keep public comments within the limits in
+Security fixes above.
 
 ## Before posting
 
@@ -103,6 +112,7 @@ that does not carry what changed, why, and what proves it, revise. Let evidence
 make the case rather than praise ("a thorough pass"). If the PR grew beyond its
 request, say why in the opening, or the reviewer meets an unexplained diff.
 
-Check the text for secrets, local paths, and internal hostnames before it reaches
-a shared place. Writing a description does not authorize opening, updating, or
-posting it; follow the requested delivery.
+Check the text for secrets, local paths, internal hostnames, and unreleased
+vulnerability details before it reaches a shared place. Writing a description or
+review comment does not authorize opening, updating, or posting it; follow the
+requested delivery.
