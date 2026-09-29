@@ -38,7 +38,8 @@ what intervention is needed. Inspect only as deeply as the chosen scope requires
   authorized, bounded, independent work that reduces total effort. Do not delegate
   recursively or repeat review exchanges without new evidence. Match planning,
   testing, and review to risk; separate blocking defects from optional improvements.
-- Implement the authorized improvements.
+- Implement the authorized improvements. If an approach repeatedly fails,
+  investigate the cause and change direction rather than repeating it unchanged.
 
 ## Verify and stop
 
