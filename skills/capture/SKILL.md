@@ -1,6 +1,6 @@
 ---
 name: capture
-description: Save an idea or side task without interrupting active work. Not for steps already included in the current task.
+description: Saves an idea or side task without interrupting active work. Not for steps already included in the current task.
 ---
 
 # Capture
