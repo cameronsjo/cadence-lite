@@ -1,6 +1,6 @@
 ---
 name: attune
-description: Plan or investigate work with consequential unresolved choices before implementation, writing and committing a plan file for substantial decisions. Use for a requested plan; not a specified small fix or continuation of approved work.
+description: Plans or investigates work with consequential unresolved choices before implementation, writing and committing a plan file for substantial decisions. Use for a requested plan; not a specified small fix or continuation of approved work.
 ---
 
 # Attune
@@ -24,7 +24,7 @@ An investigation request can end with evidence and a recommendation. When invest
 
 1. **Establish the outcome.** Read the relevant evidence and identify what completion means within the request. Use existing context and approval; ask only for information that materially changes the result.
 2. **Resolve consequential choices.** Recommend an approach and explain real alternatives when they matter. A request to draft or propose a plan includes presenting it. Preserve an explicit request to hold a draft. Do not implement a consequential approach the user has not seen — approval of the goal is not approval of the approach. A plan-only request does not authorize implementation.
-3. **Review and persist substantial decisions.** Use the [plan template](references/plan-template.md) and [conditional plan review](references/plan-review.md) for substantial plans. Record status, next action, review evidence, and the decisions needed to implement. Before implementing an approved substantial plan, persist it at the repository's plan location (default `docs/plans/YYYY-MM-DD-<slug>.md`) and commit it when authorized. Preserve an explicit no-commit instruction and report the resulting recovery boundary.
+3. **Review and persist substantial decisions.** Use the [plan template](references/plan-template.md) and [conditional plan review](references/plan-review.md), with its [plan-reviewer brief](references/agents/plan-reviewer.md), for substantial plans. Record status, next action, review evidence, and the decisions needed to implement. Before implementing an approved substantial plan, persist it at the repository's plan location (default `docs/plans/YYYY-MM-DD-<slug>.md`) and commit it when authorized. Preserve an explicit no-commit instruction and report the resulting recovery boundary.
 4. **Complete authorized work.** Carry the approved approach through implementation, relevant verification, and requested delivery. Fix failures caused by the change and rerun affected checks. Update the plan with the work if a plan exists; do not ask again for settled choices.
 
 ## Scale to fit
