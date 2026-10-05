@@ -1,6 +1,6 @@
 ---
 name: intro
-description: Orient a session opened with a greeting or a request for desk status. Not when the opening message already specifies work.
+description: Orients a session opened with a greeting or a request for desk status. Not when the opening message already specifies work.
 ---
 
 # Intro
