@@ -1,6 +1,6 @@
 ---
 name: writing-pull-requests
-description: Write a pull request title and description, a commit message, or a review comment for a change. Not for finding the review's findings or fixing the change, or for other prose.
+description: Writes a pull request title and description, a commit message, or a review comment for a change. Not for finding the review's findings or fixing the change, or for other prose.
 ---
 
 # Writing pull requests
