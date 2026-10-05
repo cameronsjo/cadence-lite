@@ -1,6 +1,6 @@
 ---
 name: outro
-description: Close a session by reconciling plans, committing and pushing work within the user's authorization, and recording loose ends. Not for finishing a branch while continuing the session.
+description: Closes a session by reconciling plans, committing and pushing work within the user's authorization, and recording loose ends. Not for finishing a branch while continuing the session.
 ---
 
 # Outro
