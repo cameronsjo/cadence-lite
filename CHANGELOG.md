@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Add optional `writing-pull-requests` for PR descriptions, commit messages, and
+  review comments written for a reader who missed the session: attributed
+  verification and security fixes disclosed through an advisory. Polish points to
+  it when installed; the default five-skill installation is unchanged.
+- Clarify Polish's changelog step to follow each project's convention; trim generic
+  strategy text from improve-repo and a restated prohibition from Outro.
 - Add eleven portable specialist roles with generated native Claude Code, Codex,
   OpenCode, and Pi adapters; keep Cadence Voice outside Lite.
 - Strengthen Polish with explicit review scope, conditional independent review,
