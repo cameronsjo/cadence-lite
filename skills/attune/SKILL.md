@@ -1,6 +1,6 @@
 ---
 name: attune
-description: Plans or investigates work with consequential unresolved choices before implementation, writing and committing a plan file for substantial decisions. Use for a requested plan; not a specified small fix or continuation of approved work.
+description: Plans or investigates work with consequential unresolved choices before implementation, writing and, when authorized, committing a plan file for substantial decisions. Use for a requested plan; not a specified small fix or continuation of approved work.
 ---
 
 # Attune
