@@ -1,6 +1,6 @@
 ---
 name: adapt
-description: Turn observed workflow friction into a targeted improvement when asked to learn from it or prevent recurrence. Not for ordinary debugging or an automatic session retrospective.
+description: Turns observed workflow friction into a targeted improvement when asked to learn from it or prevent recurrence. Not for ordinary debugging or an automatic session retrospective.
 ---
 
 # Adapt

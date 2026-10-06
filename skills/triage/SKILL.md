@@ -1,6 +1,6 @@
 ---
 name: triage
-description: Review accumulated ideas or a backlog and recommend what to pursue, defer, or drop. Not for capturing one side idea or planning an already chosen task.
+description: Reviews accumulated ideas or a backlog and recommends what to pursue, defer, or drop. Not for capturing one side idea or planning an already chosen task.
 ---
 
 # Triage

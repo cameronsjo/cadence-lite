@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Write every skill description in third person, and link the reviewer briefs
+  named in Attune's and Polish's entrypoints directly, following Anthropic's
+  skill-authoring best practices.
 - Add optional `writing-pull-requests` for PR descriptions, commit messages, and
   review comments written for a reader who missed the session: attributed
   verification and security fixes disclosed through an advisory. Polish points to

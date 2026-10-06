@@ -1,6 +1,6 @@
 ---
 name: polish
-description: Review and fix a branch before opening or updating a PR, or when asked to polish it. Not for routine progress checkpoints or session closeout.
+description: Reviews and fixes a branch before opening or updating a PR, or when asked to polish it. Not for routine progress checkpoints or session closeout.
 ---
 
 # Polish
@@ -23,9 +23,12 @@ is source for this purpose, even when its extension looks like documentation.
 
 Read [review selection](references/review-selection.md). Select roles from the
 actual risks and affected surfaces, then read only their linked briefs.
-For a consequential change, use a fresh code reviewer when dispatch is available.
-Use independent security review for security-sensitive changes and agent capability
-changes; add agent-experience review for agent-consumed artifacts.
+For a consequential change, use a fresh
+[code reviewer](references/agents/code-reviewer.md) when dispatch is available.
+Use independent [security review](references/agents/security-reviewer.md) for
+security-sensitive changes and agent capability changes; add
+[agent-experience review](references/agents/agent-experience-reviewer.md) for
+agent-consumed artifacts.
 
 Give every selected reviewer the same repository, base, file set, and relevant
 requirements. Include permitted actions and the evidence needed in the return.
