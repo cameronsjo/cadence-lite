@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Attune asks before it builds on a guess. Step 1 now checks what the agent
+  knows about what the user wants and why; when something that would change what
+  gets built is missing, it asks in one message, leading with a guess the user
+  can correct. This is not an approval gate: a plan request still ends in a
+  presented plan, on stated guesses if the user declines. The description also
+  routes a request where a guess at what the user wants would change the result.
 - Write every skill description in third person, and link the reviewer briefs
   named in Attune's and Polish's entrypoints directly, following Anthropic's
   skill-authoring best practices.
