@@ -7,6 +7,10 @@ Check internal coherence and ordering: does every consumed input exist before it
 is needed? Check that every required outcome has an implementation and a way to
 verify it. Flag mismatched interfaces, scope invented beyond the request, and
 tasks underspecified enough that an implementer must make a consequential choice.
+Flag an open loop: something the delivered work creates in use with nothing
+that ends it, or a closer scheduled after a gate that counts finished items.
+Flag an unnamed concession: a task that works around a platform limit the
+plan does not list, or a listed limit that the named source shows is not real.
 Inspect named files and symbols when available. A test that merely repeats an
 implementation detail is not proof of the required behavior.
 
