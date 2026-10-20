@@ -20,7 +20,8 @@ Fill them with actual decisions; omit sections that do not help the task.
 
     ## Concessions
     Each workaround, the platform limit behind it and how it was checked, who
-    owns the platform, and the route: fix first, deferred, or conceded.
+    owns the platform, and the route: fix first, deferred (name the follow-up
+    the workaround's marker points to), or conceded.
     Or: "Concessions: none — <reason>".
 
     ## Work
