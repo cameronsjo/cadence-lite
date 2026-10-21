@@ -14,6 +14,16 @@ Fill them with actual decisions; omit sections that do not help the task.
     ## Approach and alternatives
     Chosen approach, consequential decisions, and real alternatives declined.
 
+    ## Loop
+    What the delivered work creates that outlives its action, and what closes
+    each one. Or: "Loop: none — <reason>".
+
+    ## Concessions
+    Each workaround, the platform limit behind it and how it was checked, who
+    owns the platform, and the route: fix first, deferred (name the follow-up
+    the workaround's marker points to), or conceded.
+    Or: "Concessions: none — <reason>".
+
     ## Work
     - [ ] Bounded step with its dependency and verification where needed.
 

@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- Attune plans the closer: work that creates something lasting (a queue item,
+  a claim, a flag) with nothing named to end it gets a closer planned in, which
+  the user can strike. It also names concessions: workarounds for a platform
+  limit, each limit checked, and for a platform the user owns, a route of fix
+  first, deferred, or conceded. The plan template gains `Loop` and
+  `Concessions` sections, and the plan reviewer flags open loops and unnamed
+  concessions.
+- The code reviewer grades behavior a spec never mentions by what a reasonable
+  user expects, at the severity it would get had the spec named it. Plan review
+  treats an advisory-only report as clean.
 - Attune asks before it builds on a guess. Step 1 now checks what the agent
   knows about what the user wants and why; when something that would change what
   gets built is missing, it asks in one message, leading with a guess the user

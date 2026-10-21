@@ -22,8 +22,9 @@ registration is absent, pass the full linked brief to an available generic
 subagent. If dispatch is unavailable, use the brief inline and label the review
 as inline; never claim independence or fabricate a successful invocation.
 
-Read returned findings and verify them before changing the plan. Record the
-roles used, their status and examined revision, decisions on findings, and any
-unverified boundary. Missing or empty output is a failed review. Re-review only
+Read returned findings and verify them before changing the plan. A review that
+returns only advisory improvements is clean: take the useful ones, and never
+raise a question to the user on advisories alone. Record the roles used, their
+status and examined revision, decisions on findings, and any unverified boundary. Missing or empty output is a failed review. Re-review only
 the parts changed materially by a revision. Existing approval persists unless
 the revision introduces a consequential new choice or changes authorized scope.
