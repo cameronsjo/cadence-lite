@@ -11,18 +11,26 @@ const projectDirs = { "claude-code": ".claude/agents", codex: ".codex/agents",
 const globalDirs = { "claude-code": ".claude/agents", codex: ".codex/agents",
   opencode: ".config/opencode/agents", pi: ".pi/agent/extensions/cadence-lite" };
 
-function noSymlinks(target) {
+// Refuses a symlink anywhere from target up to base. Links above base, such as
+// macOS /tmp or a symlinked ~/Projects, are the caller's choice of root.
+function noSymlinks(target, base) {
   let current = path.resolve(target);
-  while (true) {
+  while (current !== base) {
     try {
       if (fs.lstatSync(current).isSymbolicLink()) throw new Error("Refusing symlink: " + current);
     } catch (error) {
       if (error.code !== "ENOENT") throw error;
     }
     const parent = path.dirname(current);
-    if (parent === current) return;
+    if (parent === current) throw new Error("Destination is outside its root: " + target);
     current = parent;
   }
+}
+
+// The root was resolved once, before generate() ran. Re-resolve right before a
+// write so a root or parent swapped for a link since then is refused.
+function unmoved(dir) {
+  if (fs.realpathSync(dir) !== dir) throw new Error("Destination moved during install: " + dir);
 }
 
 function atomicWrite(target, content) {
@@ -40,11 +48,12 @@ export function install({ agent, project, global = false, group = "core", update
   if (!Object.hasOwn(projectDirs, agent)) throw new Error("Choose --agent claude-code, codex, opencode, or pi.");
   if (Boolean(project) === global) throw new Error("Choose exactly one of --project PATH or --global.");
   if (!["core", "all"].includes(group)) throw new Error("--group must be core or all.");
-  const base = path.resolve(global ? home : project);
-  if (!fs.statSync(base).isDirectory()) throw new Error("Destination root is not a directory: " + base);
+  const chosen = path.resolve(global ? home : project);
+  if (!fs.statSync(chosen).isDirectory()) throw new Error("Destination root is not a directory: " + chosen);
+  const base = fs.realpathSync(chosen);
   generate({ check: true, repo });
   const destination = path.join(base, (global ? globalDirs : projectDirs)[agent]);
-  noSymlinks(destination);
+  noSymlinks(destination, base);
   const output = artifacts(repo);
   const selected = loadRoles(repo).filter((r) => group === "all" || r.group === "core");
   const files = new Map();
@@ -59,7 +68,7 @@ export function install({ agent, project, global = false, group = "core", update
     }
   }
   const manifestPath = path.join(destination, ".cadence-lite-install.json");
-  noSymlinks(manifestPath);
+  noSymlinks(manifestPath, base);
   let previous = { version: 1, files: {} };
   if (fs.existsSync(manifestPath)) {
     previous = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
@@ -70,7 +79,7 @@ export function install({ agent, project, global = false, group = "core", update
   // Check the entire operation before making any changes.
   for (const [relative, content] of files) {
     const target = path.join(destination, relative);
-    noSymlinks(target);
+    noSymlinks(target, base);
     if (fs.existsSync(target)) {
       if (!fs.lstatSync(target).isFile()) throw new Error("Destination is not a file: " + target);
       const current = fs.readFileSync(target, "utf8");
@@ -85,14 +94,16 @@ export function install({ agent, project, global = false, group = "core", update
   if (dryRun) return { destination, changed: writes.map((w) => w.relative), dryRun: true };
   fs.mkdirSync(destination, { recursive: true });
   for (const item of writes) {
-    noSymlinks(item.target);
+    noSymlinks(item.target, base);
     fs.mkdirSync(path.dirname(item.target), { recursive: true });
+    unmoved(path.dirname(item.target));
     atomicWrite(item.target, item.content);
   }
   // Only store hashes. The installer never executes code or paths from this manifest.
   const hashes = Object.fromEntries(Object.entries(previous.files).filter(([key, value]) =>
     /^(agents\/)?cadence-lite-[a-z0-9-]+\.(md|toml)$/.test(key) || ["index.mjs", "package.json"].includes(key)));
   for (const [relative, content] of files) hashes[relative] = sha(content);
+  unmoved(destination);
   atomicWrite(manifestPath, JSON.stringify({ version: 1, files: hashes }, null, 2) + "\n");
   return { destination, changed: writes.map((w) => w.relative), dryRun: false };
 }

@@ -108,8 +108,10 @@ install is harmless. After updating and verifying your checkout, use the same
 command with --update: it replaces only files unchanged since installation.
 Locally edited or conflicting files are preserved and cause the operation to
 stop before writing. Reconcile those files deliberately before retrying.
-Symlinked destinations are refused; use the real destination checkout/location
-or install manually. Unselected existing roles are retained.
+A symlink inside the destination (such as a linked `.codex` folder or
+manifest) is refused; use the real location or install manually. The project
+or home folder you name is resolved first, so it and any links above it (such
+as macOS `/tmp`) are followed. Unselected existing roles are retained.
 
 To remove an installation, remove only the cadence-lite-prefixed definitions and
 their .cadence-lite-install.json from the chosen native agent directory. For Pi,
