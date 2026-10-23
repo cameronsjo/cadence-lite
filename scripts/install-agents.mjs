@@ -27,6 +27,12 @@ function noSymlinks(target, base) {
   }
 }
 
+// The root was resolved once, before generate() ran. Re-resolve right before a
+// write so a root or parent swapped for a link since then is refused.
+function unmoved(dir) {
+  if (fs.realpathSync(dir) !== dir) throw new Error("Destination moved during install: " + dir);
+}
+
 function atomicWrite(target, content) {
   const temp = path.join(path.dirname(target), ".cadence-lite-" + crypto.randomUUID() + ".tmp");
   try {
@@ -90,12 +96,14 @@ export function install({ agent, project, global = false, group = "core", update
   for (const item of writes) {
     noSymlinks(item.target, base);
     fs.mkdirSync(path.dirname(item.target), { recursive: true });
+    unmoved(path.dirname(item.target));
     atomicWrite(item.target, item.content);
   }
   // Only store hashes. The installer never executes code or paths from this manifest.
   const hashes = Object.fromEntries(Object.entries(previous.files).filter(([key, value]) =>
     /^(agents\/)?cadence-lite-[a-z0-9-]+\.(md|toml)$/.test(key) || ["index.mjs", "package.json"].includes(key)));
   for (const [relative, content] of files) hashes[relative] = sha(content);
+  unmoved(destination);
   atomicWrite(manifestPath, JSON.stringify({ version: 1, files: hashes }, null, 2) + "\n");
   return { destination, changed: writes.map((w) => w.relative), dryRun: false };
 }

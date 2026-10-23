@@ -145,6 +145,23 @@ test("a symlink above the chosen root is followed, not refused", (t) => {
   assert.ok(fs.readdirSync(result.destination).some((f) => f.startsWith("cadence-lite-")));
 });
 
+test("a symlink inside a root reached through a link is still refused", (t) => {
+  const real = temporary(t), linkDir = temporary(t), outside = temporary(t);
+  const link = path.join(linkDir, "link");
+  fs.symlinkSync(real, link, "dir");
+  fs.symlinkSync(outside, path.join(real, ".codex"), "dir");
+  assert.throws(() => install({ agent: "codex", project: link }), /Refusing symlink/);
+  assert.deepEqual(fs.readdirSync(outside), []);
+});
+
+test("a global install under a symlinked home writes to the real home", (t) => {
+  const real = temporary(t), linkDir = temporary(t);
+  const home = path.join(linkDir, "home");
+  fs.symlinkSync(real, home, "dir");
+  const result = install({ agent: "claude-code", global: true, home });
+  assert.equal(result.destination, path.join(fs.realpathSync(real), ".claude/agents"));
+});
+
 test("global install uses the harness's user location; no project/global ambiguity", (t) => {
   const home = temporary(t);
   const result = install({ agent: "pi", global: true, home });

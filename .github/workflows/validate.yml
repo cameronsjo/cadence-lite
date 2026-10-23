@@ -31,6 +31,7 @@ jobs:
           fi
           # A force-push leaves github.event.before unfetched; check the whole tree then.
           if ! git cat-file -e "$CADENCE_DIFF_BASE^{object}" 2>/dev/null; then
+            echo "::notice::base $CADENCE_DIFF_BASE was not fetched; checking the whole tree"
             CADENCE_DIFF_BASE=$(git hash-object -t tree /dev/null)
           fi
           git diff --check "$CADENCE_DIFF_BASE" HEAD
