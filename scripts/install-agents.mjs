@@ -11,16 +11,18 @@ const projectDirs = { "claude-code": ".claude/agents", codex: ".codex/agents",
 const globalDirs = { "claude-code": ".claude/agents", codex: ".codex/agents",
   opencode: ".config/opencode/agents", pi: ".pi/agent/extensions/cadence-lite" };
 
-function noSymlinks(target) {
+// Refuses a symlink anywhere from target up to base. Links above base, such as
+// macOS /tmp or a symlinked ~/Projects, are the caller's choice of root.
+function noSymlinks(target, base) {
   let current = path.resolve(target);
-  while (true) {
+  while (current !== base) {
     try {
       if (fs.lstatSync(current).isSymbolicLink()) throw new Error("Refusing symlink: " + current);
     } catch (error) {
       if (error.code !== "ENOENT") throw error;
     }
     const parent = path.dirname(current);
-    if (parent === current) return;
+    if (parent === current) throw new Error("Destination is outside its root: " + target);
     current = parent;
   }
 }
@@ -40,11 +42,12 @@ export function install({ agent, project, global = false, group = "core", update
   if (!Object.hasOwn(projectDirs, agent)) throw new Error("Choose --agent claude-code, codex, opencode, or pi.");
   if (Boolean(project) === global) throw new Error("Choose exactly one of --project PATH or --global.");
   if (!["core", "all"].includes(group)) throw new Error("--group must be core or all.");
-  const base = path.resolve(global ? home : project);
-  if (!fs.statSync(base).isDirectory()) throw new Error("Destination root is not a directory: " + base);
+  const chosen = path.resolve(global ? home : project);
+  if (!fs.statSync(chosen).isDirectory()) throw new Error("Destination root is not a directory: " + chosen);
+  const base = fs.realpathSync(chosen);
   generate({ check: true, repo });
   const destination = path.join(base, (global ? globalDirs : projectDirs)[agent]);
-  noSymlinks(destination);
+  noSymlinks(destination, base);
   const output = artifacts(repo);
   const selected = loadRoles(repo).filter((r) => group === "all" || r.group === "core");
   const files = new Map();
@@ -59,7 +62,7 @@ export function install({ agent, project, global = false, group = "core", update
     }
   }
   const manifestPath = path.join(destination, ".cadence-lite-install.json");
-  noSymlinks(manifestPath);
+  noSymlinks(manifestPath, base);
   let previous = { version: 1, files: {} };
   if (fs.existsSync(manifestPath)) {
     previous = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
@@ -70,7 +73,7 @@ export function install({ agent, project, global = false, group = "core", update
   // Check the entire operation before making any changes.
   for (const [relative, content] of files) {
     const target = path.join(destination, relative);
-    noSymlinks(target);
+    noSymlinks(target, base);
     if (fs.existsSync(target)) {
       if (!fs.lstatSync(target).isFile()) throw new Error("Destination is not a file: " + target);
       const current = fs.readFileSync(target, "utf8");
@@ -85,7 +88,7 @@ export function install({ agent, project, global = false, group = "core", update
   if (dryRun) return { destination, changed: writes.map((w) => w.relative), dryRun: true };
   fs.mkdirSync(destination, { recursive: true });
   for (const item of writes) {
-    noSymlinks(item.target);
+    noSymlinks(item.target, base);
     fs.mkdirSync(path.dirname(item.target), { recursive: true });
     atomicWrite(item.target, item.content);
   }

@@ -135,6 +135,16 @@ test("symlinked destinations and manifests are refused", (t) => {
   assert.throws(() => install({ agent: "codex", project }), /Refusing symlink/);
 });
 
+test("a symlink above the chosen root is followed, not refused", (t) => {
+  const real = temporary(t), linkDir = temporary(t);
+  fs.mkdirSync(path.join(real, "proj"));
+  const link = path.join(linkDir, "link");
+  fs.symlinkSync(real, link, "dir");
+  const result = install({ agent: "codex", project: path.join(link, "proj") });
+  assert.equal(result.destination, path.join(fs.realpathSync(real), "proj", ".codex/agents"));
+  assert.ok(fs.readdirSync(result.destination).some((f) => f.startsWith("cadence-lite-")));
+});
+
 test("global install uses the harness's user location; no project/global ambiguity", (t) => {
   const home = temporary(t);
   const result = install({ agent: "pi", global: true, home });

@@ -29,4 +29,8 @@ jobs:
           if [ -z "$CADENCE_DIFF_BASE" ] || [ "$CADENCE_DIFF_BASE" = "0000000000000000000000000000000000000000" ]; then
             CADENCE_DIFF_BASE=$(git hash-object -t tree /dev/null)
           fi
+          # A force-push leaves github.event.before unfetched; check the whole tree then.
+          if ! git cat-file -e "$CADENCE_DIFF_BASE^{object}" 2>/dev/null; then
+            CADENCE_DIFF_BASE=$(git hash-object -t tree /dev/null)
+          fi
           git diff --check "$CADENCE_DIFF_BASE" HEAD
