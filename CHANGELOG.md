@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Writing-pull-requests adds a one-line merge danger for a change a revert
+  cannot undo. Attune holds back an intent question that depends on another
+  one until that answer is in.
 - Attune plans the closer: work that creates something lasting (a queue item,
   a claim, a flag) with nothing named to end it gets a closer planned in, which
   the user can strike. It also names concessions: workarounds for a platform
