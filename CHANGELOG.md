@@ -3,8 +3,9 @@
 ## Unreleased
 
 - The security reviewer accepts a short description that names each kind of
-  action its body takes. It flags a kind the description never admits, not a
-  missing detail.
+  action its body takes (acting without asking, wrapping another tool, network
+  egress, credential access, auto-run). It flags a kind the description never
+  admits, not a missing detail.
 - Attune plans the closer: work that creates something lasting (a queue item,
   a claim, a flag) with nothing named to end it gets a closer planned in, which
   the user can strike. It also names concessions: workarounds for a platform
