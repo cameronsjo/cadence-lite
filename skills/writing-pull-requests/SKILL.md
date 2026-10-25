@@ -29,6 +29,11 @@ that only makes sense to someone who watched the session.
 - **Opening.** Two or three sentences, no heading: the problem, what is now true,
   and the linked issue, with the host's closing keyword when merging should close
   it. A reviewer sees the link first there.
+- **Merge danger.** Only for a change a revert cannot undo, such as a migration,
+  a published format, a moved version pin, or a deletion: one line right after
+  the opening, `**Merge danger:** <what cannot be undone>; blast radius: <who it
+  reaches>`. The bold lead-in is what the skim in Before posting catches. A
+  change a revert undoes gets no line.
 - **Changes.** A few short bullets, one change each. Add a reason only where the
   change does not explain itself.
 - **Verification.** One attributed line per kind of evidence, as below.

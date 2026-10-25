@@ -14,8 +14,10 @@ plausible trigger and effect in context; scanner output alone is a lead.
 For skills, agents, hooks, and tool descriptions, also compare declared behavior
 and permissions with what their bodies actually direct. Flag instructions that
 conceal side effects, broaden capability, escape their intended paths, or treat
-untrusted content as authority. A behavioral Markdown change is source code for
-this review, not a documentation-only exemption.
+untrusted content as authority. A few words per kind of action the body takes
+is enough disclosure: flag a kind the description never admits, not a short
+description or a missing detail inside a kind it names. A behavioral Markdown
+change is source code for this review, not a documentation-only exemption.
 
 State the evidence and exploitation or capability consequence for each finding.
 Do not report a clean security verdict if a required boundary was inaccessible.
