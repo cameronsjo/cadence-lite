@@ -5,10 +5,6 @@
 - The security reviewer accepts a short description that names each kind of
   action its body takes. It flags a kind the description never admits, not a
   missing detail.
-- `writing-pull-requests` adds a one-line **Merge danger** lead for a change a
-  revert cannot undo, naming what cannot be undone and who it reaches.
-- Attune holds back a question whose answer depends on another one in the same
-  batch, and asks it once that answer is in.
 - Attune plans the closer: work that creates something lasting (a queue item,
   a claim, a flag) with nothing named to end it gets a closer planned in, which
   the user can strike. It also names concessions: workarounds for a platform
