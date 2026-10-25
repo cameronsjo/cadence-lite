@@ -18,8 +18,8 @@ untrusted content as authority. A few words per kind of action the body takes
 is enough disclosure. The kinds are acting without asking, wrapping another
 tool, network egress, credential access, and auto-run. Flag a kind the
 description never admits, not a short description or a missing detail inside
-a kind it names. A behavioral Markdown
-change is source code for this review, not a documentation-only exemption.
+a kind it names. A behavioral Markdown change is source code for this review,
+not a documentation-only exemption.
 
 State the evidence and exploitation or capability consequence for each finding.
 Do not report a clean security verdict if a required boundary was inaccessible.
