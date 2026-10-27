@@ -59,6 +59,12 @@ hash identifies content; it does not establish who signed it.
 | [improve-repo](skills/improve-repo/SKILL.md) | Improving repository delivery through a real task | Verified improvements within a bounded scope |
 | [writing-pull-requests](skills/writing-pull-requests/SKILL.md) | Writing a PR description, commit message, or review comment | Text a reader who missed the session can act on |
 
+On Codex, outro, improve-repo, and adapt run only when invoked by name
+(`$outro`, `$improve-repo`, `$adapt`). Each ships an `agents/openai.yaml` that
+sets `policy.allow_implicit_invocation: false`, which hides the skill from the
+model; see [Codex skills](https://learn.chatgpt.com/docs/build-skills). Other
+harnesses ignore the file and may still select these skills from a request.
+
 There is no execute skill. Specified small changes proceed directly. Existing
 approval persists; a request for analysis does not authorize implementation.
 Capture, triage, and reflection do not automatically authorize external writes.

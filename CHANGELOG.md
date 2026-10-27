@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Outro, improve-repo, and adapt ship Codex metadata (`agents/openai.yaml`)
+  with `policy.allow_implicit_invocation: false`, so on Codex they run only when
+  invoked as `$outro`, `$improve-repo`, or `$adapt`. Other harnesses are
+  unchanged.
 - Writing-pull-requests adds a one-line merge danger for a change a revert
   cannot undo.
 - Attune holds back an intent question that depends on another one until that

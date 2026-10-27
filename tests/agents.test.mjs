@@ -196,6 +196,17 @@ test("each distributable skill resolves its own references after an isolated cop
   }
 });
 
+test("only request-only skills carry Codex metadata, and it disables implicit invocation", () => {
+  const requestOnly = ["adapt", "improve-repo", "outro"];
+  for (const name of fs.readdirSync(path.join(root, "skills"))) {
+    const file = path.join(root, "skills", name, "agents/openai.yaml");
+    assert.equal(fs.existsSync(file), requestOnly.includes(name), "Codex metadata for " + name);
+    if (!requestOnly.includes(name)) continue;
+    const keys = fs.readFileSync(file, "utf8").split("\n").filter((l) => l.trim() && !l.startsWith("#"));
+    assert.deepEqual(keys, ["policy:", "  allow_implicit_invocation: false"]);
+  }
+});
+
 test("Pi package remains skill-only and all native outputs are generated from source", () => {
   const pkg = JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8"));
   assert.deepEqual(pkg.pi.skills, ["./skills"]);
