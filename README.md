@@ -74,7 +74,9 @@ signature check. To follow the signature policy in
     claude plugin install cadence-lite@cadence-lite
 
 The key is the maintainer's signing key. A tip it did not sign stops the script
-before anything is installed. Add `--branch <tag>` to the clone to hold one
+before anything is installed. Verification needs `ssh-keygen`; the second line
+installs it with `apt-get`, which needs root. Without either, install OpenSSH by
+other means or the script stops. Add `--branch <tag>` to the clone to hold one
 release; the marketplace form takes `@<branch or tag>`, not a commit.
 
 These commands follow the selected repository revision; they do not verify the
