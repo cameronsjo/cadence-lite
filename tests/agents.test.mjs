@@ -202,3 +202,16 @@ test("Pi package remains skill-only and all native outputs are generated from so
   assert.equal(pkg.pi.extensions, undefined);
   for (const [file, expected] of artifacts()) assert.equal(fs.readFileSync(path.join(root, file), "utf8"), expected);
 });
+
+test("Claude Code plugin loads every skill and exactly the core agents", () => {
+  const plugin = JSON.parse(fs.readFileSync(path.join(root, ".claude-plugin", "plugin.json"), "utf8"));
+  const market = JSON.parse(fs.readFileSync(path.join(root, ".claude-plugin", "marketplace.json"), "utf8"));
+  assert.equal(plugin.name, "cadence-lite");
+  assert.deepEqual(market.plugins.map((p) => [p.name, p.source]), [["cadence-lite", "./"]]);
+  assert.equal(plugin.skills, "./skills/");
+  assert.equal(plugin.hooks, undefined);
+  const core = loadRoles().filter((r) => r.group === "core")
+    .map((r) => "./adapters/claude-code/agents/cadence-lite-" + r.id + ".md");
+  assert.deepEqual(plugin.agents, core);
+  for (const file of plugin.agents) assert.ok(fs.existsSync(path.join(root, file)), "Missing agent: " + file);
+});

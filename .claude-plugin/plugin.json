@@ -1,0 +1,17 @@
+{
+  "name": "cadence-lite",
+  "description": "A small workflow for coding agents: orient, plan consequential choices, build, review, and leave enough context to resume.",
+  "author": {
+    "name": "Cameron Sjo"
+  },
+  "repository": "https://github.com/cameronsjo/cadence-lite",
+  "license": "SEE LICENSE IN LICENSE",
+  "skills": "./skills/",
+  "agents": [
+    "./adapters/claude-code/agents/cadence-lite-plan-reviewer.md",
+    "./adapters/claude-code/agents/cadence-lite-code-reviewer.md",
+    "./adapters/claude-code/agents/cadence-lite-security-reviewer.md",
+    "./adapters/claude-code/agents/cadence-lite-agent-experience-reviewer.md",
+    "./adapters/claude-code/agents/cadence-lite-test-author.md"
+  ]
+}

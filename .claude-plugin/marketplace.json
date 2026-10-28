@@ -1,0 +1,13 @@
+{
+  "name": "cadence-lite",
+  "owner": {
+    "name": "Cameron Sjo"
+  },
+  "plugins": [
+    {
+      "name": "cadence-lite",
+      "source": "./",
+      "description": "Cadence's portable rhythm (intro, attune, polish, outro, capture, and four optional workflows) with the five core reviewer and test-author agents. No hooks."
+    }
+  ]
+}

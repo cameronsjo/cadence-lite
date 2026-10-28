@@ -38,6 +38,38 @@ workflows, and no extensions. Use Pi's resource configuration to disable unwante
 skills. Choose either Pi's package manager or npx skills for a given installation,
 so you do not load the same skills twice. See [Pi packages](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/packages.md).
 
+### Claude Code plugin
+
+Claude Code can load the repository as a plugin. It brings all nine skills
+under the `cadence-lite:` prefix and the five core agents. It has no hooks.
+
+    /plugin install cadence-lite --marketplace cameronsjo/cadence-lite
+
+Choose the plugin or npx skills for Claude Code, not both, so the skills do not
+load twice.
+
+### Claude Code on the web
+
+A cloud session reads `~/.claude/settings.json` but not a cloned repository's
+`.claude/` folder when its working directory sits above the clones, as a
+multi-repository session's does. To load the plugin in every session of a cloud
+environment, add this to the environment's setup script:
+
+    mkdir -p ~/.claude
+    [ -e ~/.claude/settings.json ] || cat > ~/.claude/settings.json <<'EOF'
+    {
+      "extraKnownMarketplaces": {
+        "cadence-lite": {
+          "source": { "source": "github", "repo": "cameronsjo/cadence-lite" }
+        }
+      },
+      "enabledPlugins": { "cadence-lite@cadence-lite": true }
+    }
+    EOF
+
+The script leaves an existing settings file alone; merge the two keys into it
+by hand. Add `"ref": "<tag or commit>"` beside `repo` to hold one revision.
+
 These commands follow the selected repository revision; they do not verify the
 maintainer's signing identity. Consumers enforcing the signature policy in
 [CONTRIBUTING.md](CONTRIBUTING.md) should install from a checkout already verified

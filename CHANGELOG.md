@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- The repository is now a Claude Code plugin and a one-plugin marketplace:
+  all nine skills and the five core agents, no hooks. The README gives the
+  setup-script lines that load it in Claude Code on the web.
 - Writing-pull-requests adds a one-line merge danger for a change a revert
   cannot undo.
 - Attune holds back an intent question that depends on another one until that
