@@ -50,25 +50,19 @@ load twice.
 
 ### Claude Code on the web
 
-A cloud session reads `~/.claude/settings.json` but not a cloned repository's
-`.claude/` folder when its working directory sits above the clones, as a
-multi-repository session's does. To load the plugin in every session of a cloud
-environment, add this to the environment's setup script:
+A cloud session reads `~/.claude` but not a cloned repository's `.claude/`
+folder when its working directory sits above the clones, as a multi-repository
+session's does. To load the plugin in every session of a cloud environment, add
+these lines to the environment's setup script:
 
-    mkdir -p ~/.claude
-    [ -e ~/.claude/settings.json ] || cat > ~/.claude/settings.json <<'EOF'
-    {
-      "extraKnownMarketplaces": {
-        "cadence-lite": {
-          "source": { "source": "github", "repo": "cameronsjo/cadence-lite" }
-        }
-      },
-      "enabledPlugins": { "cadence-lite@cadence-lite": true }
-    }
-    EOF
+    claude plugin marketplace add cameronsjo/cadence-lite
+    claude plugin install cadence-lite@cadence-lite
 
-The script leaves an existing settings file alone; merge the two keys into it
-by hand. Add `"ref": "<tag or commit>"` beside `repo` to hold one revision.
+Install it in the setup script, not only by declaring the marketplace in
+`~/.claude/settings.json`: a declared marketplace is fetched during a
+session's start and its plugin loads only from the next session on, and each
+cloud session starts in a fresh container. Append `@<tag or commit>` to the
+repository to hold one revision.
 
 These commands follow the selected repository revision; they do not verify the
 maintainer's signing identity. Consumers enforcing the signature policy in

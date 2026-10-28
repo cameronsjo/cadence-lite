@@ -56,3 +56,19 @@ that all harness/model combinations are accepted.
 
 CI is configured to run the package checks on Node.js 22 and 24. A configured CI
 job is not a successful run; consult the PR's checks for its actual results.
+
+## Claude Code plugin load (2026-10-28)
+
+Claude Code 2.1.312 in a claude.ai cloud container, each run with a fresh
+`HOME` or `CLAUDE_CONFIG_DIR`, asking a print-mode session to list what loaded:
+
+| Setup | First session | What it establishes |
+| --- | --- | --- |
+| `claude plugin validate .` | Passed with warnings | The manifests parse |
+| Marketplace as a local `directory` source in settings | 9 skills, 5 agents | The skills path and agent list resolve |
+| Marketplace as a `github` source declared in settings only | Nothing loaded; the second session loaded all 14 | A declared marketplace's plugin arrives one session late |
+| `claude plugin marketplace add` then `plugin install`, then a session | 9 skills, 5 agents | The README's setup-script lines work in a fresh home |
+
+The cloud environment's own setup script was not run: whether it runs with
+`claude` on `PATH` and writes to the session's `~/.claude` is untested.
+Skill behavior in a cloud session was not exercised.
