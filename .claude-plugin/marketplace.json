@@ -1,5 +1,6 @@
 {
   "name": "cadence-lite",
+  "description": "The cadence-lite plugin: a small, hook-free workflow for coding agents.",
   "owner": {
     "name": "Cameron Sjo"
   },

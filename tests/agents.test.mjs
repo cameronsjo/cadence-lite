@@ -203,13 +203,21 @@ test("Pi package remains skill-only and all native outputs are generated from so
   for (const [file, expected] of artifacts()) assert.equal(fs.readFileSync(path.join(root, file), "utf8"), expected);
 });
 
-test("Claude Code plugin loads every skill and exactly the core agents", () => {
+test("Claude Code plugin declares every skill, exactly the core agents, and nothing else", () => {
   const plugin = JSON.parse(fs.readFileSync(path.join(root, ".claude-plugin", "plugin.json"), "utf8"));
   const market = JSON.parse(fs.readFileSync(path.join(root, ".claude-plugin", "marketplace.json"), "utf8"));
   assert.equal(plugin.name, "cadence-lite");
   assert.deepEqual(market.plugins.map((p) => [p.name, p.source]), [["cadence-lite", "./"]]);
   assert.equal(plugin.skills, "./skills/");
-  assert.equal(plugin.hooks, undefined);
+  const skills = fs.readdirSync(path.join(root, "skills"))
+    .filter((name) => fs.existsSync(path.join(root, "skills", name, "SKILL.md")));
+  assert.equal(skills.length, 9);
+  for (const key of ["hooks", "mcpServers", "lspServers", "commands", "outputStyles"]) {
+    assert.equal(plugin[key], undefined, "Unexpected plugin key: " + key);
+  }
+  for (const entry of ["hooks", ".mcp.json", ".lsp.json", "commands", "bin"]) {
+    assert.ok(!fs.existsSync(path.join(root, entry)), "Plugin would auto-load: " + entry);
+  }
   const core = loadRoles().filter((r) => r.group === "core")
     .map((r) => "./adapters/claude-code/agents/cadence-lite-" + r.id + ".md");
   assert.deepEqual(plugin.agents, core);

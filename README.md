@@ -5,6 +5,7 @@ choices, build, review, and leave enough context to resume.
 
 The skills work without hooks, a plugin runtime, or native subagents. Optional
 agent adapters add independent review and bounded test/documentation work.
+Claude Code can also load the skills and core agents as one plugin (below).
 
 ## Install the skills
 
@@ -43,26 +44,38 @@ so you do not load the same skills twice. See [Pi packages](https://github.com/e
 Claude Code can load the repository as a plugin. It brings all nine skills
 under the `cadence-lite:` prefix and the five core agents. It has no hooks.
 
-    /plugin install cadence-lite --marketplace cameronsjo/cadence-lite
-
-Choose the plugin or npx skills for Claude Code, not both, so the skills do not
-load twice.
-
-### Claude Code on the web
-
-A cloud session reads `~/.claude` but not a cloned repository's `.claude/`
-folder when its working directory sits above the clones, as a multi-repository
-session's does. To load the plugin in every session of a cloud environment, add
-these lines to the environment's setup script:
-
     claude plugin marketplace add cameronsjo/cadence-lite
     claude plugin install cadence-lite@cadence-lite
 
-Install it in the setup script, not only by declaring the marketplace in
-`~/.claude/settings.json`: a declared marketplace is fetched during a
-session's start and its plugin loads only from the next session on, and each
-cloud session starts in a fresh container. Append `@<tag or commit>` to the
-repository to hold one revision.
+Choose the plugin or npx skills and the agent installer for Claude Code, not
+both, so the skills and agents do not load twice. The plugin's test-author agent
+can write files and run shell commands, within the session's permission mode.
+
+### Claude Code on the web
+
+A cloud session whose working directory sits above its cloned repositories, as a
+multi-repository session's does, does not read their `.claude/` folders; it does
+read `~/.claude`. Install the plugin there from the environment's setup script.
+Each cloud session starts in a fresh container, so the script runs every time.
+Only install there: a marketplace merely declared in `~/.claude/settings.json`
+is fetched while a session starts, and its plugin loads only in the next one.
+
+The marketplace commands above take the current default branch with no
+signature check. To follow the signature policy in
+[CONTRIBUTING.md](CONTRIBUTING.md), verify the clone before installing it:
+
+    set -e
+    command -v ssh-keygen >/dev/null || apt-get install -y -q openssh-client
+    dir="$HOME/.cadence-lite"
+    git clone --quiet https://github.com/cameronsjo/cadence-lite "$dir"
+    echo '* namespaces="git" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDNUduYzshHWuSNSB7z8qpQA0myzRnIbyVuHtCY3W4x3' > "$dir.signers"
+    git -C "$dir" -c gpg.ssh.allowedSignersFile="$dir.signers" verify-commit HEAD
+    claude plugin marketplace add "$dir"
+    claude plugin install cadence-lite@cadence-lite
+
+The key is the maintainer's signing key. A tip it did not sign stops the script
+before anything is installed. Add `--branch <tag>` to the clone to hold one
+release; the marketplace form takes `@<branch or tag>`, not a commit.
 
 These commands follow the selected repository revision; they do not verify the
 maintainer's signing identity. Consumers enforcing the signature policy in
@@ -202,7 +215,8 @@ for the exercised boundaries and remaining checks.
 Lite keeps portable workflow decisions and specialist briefs. Full Cadence adds
 runtime enforcement, coordination, routing, and a wider skill surface. Install
 those capabilities when they help the work; a harness supporting plugins is
-not by itself a reason to load a larger instruction set.
+not by itself a reason to load a larger instruction set. The lite plugin is the
+small option; full Cadence's plugins are the larger one.
 
 ## License and contributions
 

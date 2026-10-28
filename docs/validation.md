@@ -47,7 +47,8 @@ both hostile status-field reproductions reject and leave no prompt files.
 
 ## Limits
 
-No Pi, Codex, Claude Code, or OpenCode executable is installed in this environment.
+In the 2026-09-10 environment, no Pi, Codex, Claude Code, or OpenCode executable
+was installed.
 No model-backed child or live native-agent discovery was run. No remote npx skills
 installation was run. The documented formats and install paths were checked
 against the linked primary documentation, and skill directories were exercised
@@ -64,11 +65,19 @@ Claude Code 2.1.312 in a claude.ai cloud container, each run with a fresh
 
 | Setup | First session | What it establishes |
 | --- | --- | --- |
-| `claude plugin validate .` | Passed with warnings | The manifests parse |
-| Marketplace as a local `directory` source in settings | 9 skills, 5 agents | The skills path and agent list resolve |
+| Marketplace as a local `directory` source in settings | 9 skills, 5 agents | The skills path and agent list resolve; the root `agents/` sources do not load |
 | Marketplace as a `github` source declared in settings only | Nothing loaded; the second session loaded all 14 | A declared marketplace's plugin arrives one session late |
-| `claude plugin marketplace add` then `plugin install`, then a session | 9 skills, 5 agents | The README's setup-script lines work in a fresh home |
+| `claude plugin marketplace add cameronsjo/cadence-lite@<branch>` then `plugin install` | 9 skills, 5 agents | The unverified install works in a fresh home |
+| `marketplace add …@<commit>` | Fails: remote branch not found | The `@` ref is a branch or tag, not a commit |
+| README verified script: clone, `verify-commit HEAD`, `marketplace add <dir>`, `plugin install` | 9 skills, 5 agents | The verified install works; `main`'s tip verified, and a tip signed by another key stopped with "No principal matched" |
 
-The cloud environment's own setup script was not run: whether it runs with
-`claude` on `PATH` and writes to the session's `~/.claude` is untested.
-Skill behavior in a cloud session was not exercised.
+`claude plugin validate .` passed with expected warnings: no `version` (cadence
+uses commit-based caching), no icon, and "No
+frontmatter block found" for the 12 portable sources under the root `agents/`,
+which the validator scans as a default agents folder. The runtime loads only the
+five listed adapter files.
+
+The container had no `ssh-keygen`; the verified script installs
+`openssh-client` for that. The cloud environment's own setup script was not
+run: whether it runs as the session's user, with `claude` and `apt-get`
+available, is untested. Skill behavior in a cloud session was not exercised.
