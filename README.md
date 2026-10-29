@@ -47,6 +47,9 @@ under the `cadence-lite:` prefix and the five core agents. It has no hooks.
     claude plugin marketplace add cameronsjo/cadence-lite
     claude plugin install cadence-lite@cadence-lite
 
+These two lines install the current default branch unverified; the next
+section gives a script that checks the maintainer's signature first.
+
 Choose the plugin or npx skills and the agent installer for Claude Code, not
 both, so the skills and agents do not load twice. The plugin's test-author agent
 can write files and run shell commands, within the session's permission mode.
@@ -55,8 +58,8 @@ can write files and run shell commands, within the session's permission mode.
 
 A cloud session whose working directory sits above its cloned repositories, as a
 multi-repository session's does, does not read their `.claude/` folders; it does
-read `~/.claude`. Install the plugin there from the environment's setup script.
-Each cloud session starts in a fresh container, so the script runs every time.
+read `~/.claude`. Install the plugin there from the environment's setup script. A cloud session
+starts in a new container, so the install has to come from that script.
 Only install there: a marketplace merely declared in `~/.claude/settings.json`
 is fetched while a session starts, and its plugin loads only in the next one.
 
@@ -67,6 +70,7 @@ signature check. To follow the signature policy in
     set -e
     command -v ssh-keygen >/dev/null || { apt-get update -q && apt-get install -y -q openssh-client; }
     dir="$HOME/.cadence-lite"
+    rm -rf "$dir"
     git clone --quiet https://github.com/cameronsjo/cadence-lite "$dir"
     echo '* namespaces="git" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDNUduYzshHWuSNSB7z8qpQA0myzRnIbyVuHtCY3W4x3' > "$dir.signers"
     git -C "$dir" cat-file commit HEAD | grep -q '^gpgsig -----BEGIN SSH SIGNATURE-----'
@@ -76,21 +80,26 @@ signature check. To follow the signature policy in
     claude plugin install cadence-lite@cadence-lite
 
 The key is the maintainer's signing key. A tip it did not sign stops the script
-before anything is installed. The script accepts only an SSH signature and turns
-off git's GPG and X.509 verifiers: either would otherwise accept a signature
-from any key in a local keyring, such as GitHub's web-flow key. Verification needs `ssh-keygen`; the second line
-installs it with `apt-get`, which needs root. Without either, install OpenSSH by
-other means or the script stops. A signature shows who signed a commit, not that it is
-the newest one. To hold one release, add `--branch <tag>` to the clone and
-compare `git -C "$dir" rev-parse HEAD` with the commit you expect. The
-marketplace form takes `@<branch or tag>`, not a commit.
+before anything is installed, including a tip of `main` that was merged without
+a maintainer signature. The script accepts only an SSH signature and turns off
+git's GPG and X.509 verifiers: either would otherwise accept a signature from
+any key in a local keyring, such as GitHub's web-flow key.
 
-These commands follow the selected repository revision; they do not verify the
-maintainer's signing identity. Consumers enforcing the signature policy in
-[CONTRIBUTING.md](CONTRIBUTING.md) should install from a checkout already verified
-against their trusted maintainer key, with the checks in the script above, using npx skills add ./cadence-lite with the
-same selection flags. Verify updates before reinstalling them. A lock or content
-hash identifies content; it does not establish who signed it.
+Verification needs `ssh-keygen`. The second line installs it with `apt-get`,
+which needs root; without either, install OpenSSH by other means or the script
+stops. The script starts from a fresh clone, so running it again is harmless.
+
+A signature shows who signed a commit, not that it is the newest one. To hold
+one release, add `--branch <tag>` to the clone and compare
+`git -C "$dir" rev-parse HEAD` with the commit you expect. The marketplace
+form takes `@<branch or tag>`, not a commit.
+
+The npx skills and Pi commands above also follow the selected revision without
+checking who signed it. Consumers enforcing the signature policy in
+[CONTRIBUTING.md](CONTRIBUTING.md) should run the script's checks on a checkout
+first, then install it with npx skills add ./cadence-lite and the same selection
+flags. Verify updates before reinstalling them. A lock or content hash
+identifies content; it does not establish who signed it.
 
 ## The rhythm
 
