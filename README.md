@@ -65,24 +65,30 @@ signature check. To follow the signature policy in
 [CONTRIBUTING.md](CONTRIBUTING.md), verify the clone before installing it:
 
     set -e
-    command -v ssh-keygen >/dev/null || apt-get install -y -q openssh-client
+    command -v ssh-keygen >/dev/null || { apt-get update -q && apt-get install -y -q openssh-client; }
     dir="$HOME/.cadence-lite"
     git clone --quiet https://github.com/cameronsjo/cadence-lite "$dir"
     echo '* namespaces="git" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDNUduYzshHWuSNSB7z8qpQA0myzRnIbyVuHtCY3W4x3' > "$dir.signers"
-    git -C "$dir" -c gpg.ssh.allowedSignersFile="$dir.signers" verify-commit HEAD
+    git -C "$dir" cat-file commit HEAD | grep -q '^gpgsig -----BEGIN SSH SIGNATURE-----'
+    git -C "$dir" -c gpg.ssh.allowedSignersFile="$dir.signers" \
+      -c gpg.program=false -c gpg.x509.program=false verify-commit HEAD
     claude plugin marketplace add "$dir"
     claude plugin install cadence-lite@cadence-lite
 
 The key is the maintainer's signing key. A tip it did not sign stops the script
-before anything is installed. Verification needs `ssh-keygen`; the second line
+before anything is installed. The script accepts only an SSH signature and turns
+off git's GPG and X.509 verifiers: either would otherwise accept a signature
+from any key in a local keyring, such as GitHub's web-flow key. Verification needs `ssh-keygen`; the second line
 installs it with `apt-get`, which needs root. Without either, install OpenSSH by
-other means or the script stops. Add `--branch <tag>` to the clone to hold one
-release; the marketplace form takes `@<branch or tag>`, not a commit.
+other means or the script stops. A signature shows who signed a commit, not that it is
+the newest one. To hold one release, add `--branch <tag>` to the clone and
+compare `git -C "$dir" rev-parse HEAD` with the commit you expect. The
+marketplace form takes `@<branch or tag>`, not a commit.
 
 These commands follow the selected repository revision; they do not verify the
 maintainer's signing identity. Consumers enforcing the signature policy in
 [CONTRIBUTING.md](CONTRIBUTING.md) should install from a checkout already verified
-against their trusted maintainer key, using npx skills add ./cadence-lite with the
+against their trusted maintainer key, with the checks in the script above, using npx skills add ./cadence-lite with the
 same selection flags. Verify updates before reinstalling them. A lock or content
 hash identifies content; it does not establish who signed it.
 

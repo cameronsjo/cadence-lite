@@ -70,6 +70,7 @@ Claude Code 2.1.312 in a claude.ai cloud container, each run with a fresh
 | `claude plugin marketplace add cameronsjo/cadence-lite@<branch>` then `plugin install` | 9 skills, 5 agents | The unverified install works in a fresh home |
 | `marketplace add …@<commit>` | Fails: remote branch not found | The `@` ref is a branch or tag, not a commit |
 | README verified script: clone, `verify-commit HEAD`, `marketplace add <dir>`, `plugin install` | 9 skills, 5 agents | The verified install works; `main`'s tip verified, and a tip signed by another key stopped with "No principal matched" |
+| The verify lines against a tip signed by a PGP key in the local keyring (2026-10-29) | Stopped | The SSH-only check and disabled GPG and X.509 verifiers close the bypass; the earlier line, with only `allowedSignersFile`, accepted that tip |
 
 `claude plugin validate .` passed with expected warnings: no `version` (cadence
 uses commit-based caching), no icon, and "No

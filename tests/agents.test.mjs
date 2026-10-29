@@ -222,4 +222,8 @@ test("Claude Code plugin declares every skill, exactly the core agents, and noth
     .map((r) => "./adapters/claude-code/agents/cadence-lite-" + r.id + ".md");
   assert.deepEqual(plugin.agents, core);
   for (const file of plugin.agents) assert.ok(fs.existsSync(path.join(root, file)), "Missing agent: " + file);
+  // Claude Code also scans the root agents/ folder; its portable sources stay unloadable without frontmatter.
+  for (const name of fs.readdirSync(path.join(root, "agents")).filter((n) => n.endsWith(".md"))) {
+    assert.ok(!fs.readFileSync(path.join(root, "agents", name), "utf8").startsWith("---"), "Root agent would load: " + name);
+  }
 });
