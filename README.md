@@ -73,17 +73,18 @@ signature check. To follow the signature policy in
     rm -rf "$dir"
     git clone --quiet https://github.com/cameronsjo/cadence-lite "$dir"
     echo '* namespaces="git" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDNUduYzshHWuSNSB7z8qpQA0myzRnIbyVuHtCY3W4x3' > "$dir.signers"
-    git -C "$dir" cat-file commit HEAD | grep -q '^gpgsig -----BEGIN SSH SIGNATURE-----'
-    git -C "$dir" -c gpg.ssh.allowedSignersFile="$dir.signers" \
+    git -C "$dir" cat-file commit HEAD | sed '/^$/q' | grep -q '^gpgsig -----BEGIN SSH SIGNATURE-----'
+    git -C "$dir" -c gpg.ssh.allowedSignersFile="$dir.signers" -c gpg.ssh.program=ssh-keygen \
       -c gpg.program=false -c gpg.x509.program=false verify-commit HEAD
     claude plugin marketplace add "$dir"
     claude plugin install cadence-lite@cadence-lite
 
 The key is the maintainer's signing key. A tip it did not sign stops the script
 before anything is installed, including a tip of `main` that was merged without
-a maintainer signature. The script accepts only an SSH signature and turns off
-git's GPG and X.509 verifiers: either would otherwise accept a signature from
-any key in a local keyring, such as GitHub's web-flow key.
+a maintainer signature. The script accepts only an SSH signature, checks it with
+`ssh-keygen` whatever the machine's git config names as its SSH verifier, and
+turns off git's GPG and X.509 verifiers: either would otherwise accept a
+signature from any key in a local keyring, such as GitHub's web-flow key.
 
 Verification needs `ssh-keygen`. The second line installs it with `apt-get`,
 which needs root; without either, install OpenSSH by other means or the script
