@@ -7,8 +7,9 @@ Issues and pull requests are welcome.
 Machines that consume this repo pull it directly and wire the skill files into a live
 agent session, so the content on `main` acts as instructions on every consuming
 machine. Pull-request review is the control on that: changes reach `main` through a
-reviewed pull request, merged on GitHub once its checks pass. Commits do not need to
-be signed.
+reviewed pull request, squash-merged on GitHub once its checks pass. The commits on a
+branch do not need to be signed; GitHub signs the squash commit, which satisfies the
+repository's signed-commit rule on `main`.
 
 ## What makes a good change here
 

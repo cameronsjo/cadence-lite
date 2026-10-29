@@ -76,8 +76,8 @@ frontmatter block found" for the 12 portable sources under the root `agents/`,
 which the validator scans as a default agents folder. The runtime loads only the
 five listed adapter files.
 
-An earlier revision of this change verified the tip's SSH signature before
-installing. That check was dropped on 2026-10-29 along with the signed-commit
-policy. The cloud environment's own setup script was not
-run: whether it runs as the session's user, with `claude`
-available, is untested. Skill behavior in a cloud session was not exercised.
+Before 2026-10-29 the README's setup script verified the tip's SSH signature;
+that check was dropped with the signed-commit policy. The cloud environment's
+own setup script was not run: whether it runs as the session's user, with
+`claude` available, is untested. Skill behavior in a cloud session was not
+exercised.

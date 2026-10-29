@@ -63,8 +63,8 @@ with the same two lines:
 
 A cloud session starts in a new container, so the install has to come from that
 script. Declaring the marketplace in `~/.claude/settings.json` is not enough: a
-declared marketplace is fetched while a session starts, and its plugin loads
-only in the next one. Append `@<branch or tag>` to the repository to hold one
+marketplace declared there with a GitHub source is fetched while a session
+starts, and its plugin loads only in the next one. Append `@<branch or tag>` to the repository to hold one
 revision; a commit is not accepted there.
 
 These commands, like npx skills and Pi above, install whatever the chosen
