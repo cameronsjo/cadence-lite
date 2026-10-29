@@ -202,3 +202,28 @@ test("Pi package remains skill-only and all native outputs are generated from so
   assert.equal(pkg.pi.extensions, undefined);
   for (const [file, expected] of artifacts()) assert.equal(fs.readFileSync(path.join(root, file), "utf8"), expected);
 });
+
+test("Claude Code plugin declares every skill, exactly the core agents, and nothing else", () => {
+  const plugin = JSON.parse(fs.readFileSync(path.join(root, ".claude-plugin", "plugin.json"), "utf8"));
+  const market = JSON.parse(fs.readFileSync(path.join(root, ".claude-plugin", "marketplace.json"), "utf8"));
+  assert.equal(plugin.name, "cadence-lite");
+  assert.deepEqual(market.plugins.map((p) => [p.name, p.source]), [["cadence-lite", "./"]]);
+  assert.equal(plugin.skills, "./skills/");
+  const skills = fs.readdirSync(path.join(root, "skills"))
+    .filter((name) => fs.existsSync(path.join(root, "skills", name, "SKILL.md")));
+  assert.equal(skills.length, 9);
+  for (const key of ["hooks", "mcpServers", "lspServers", "commands", "outputStyles"]) {
+    assert.equal(plugin[key], undefined, "Unexpected plugin key: " + key);
+  }
+  for (const entry of ["hooks", ".mcp.json", ".lsp.json", "commands", "bin"]) {
+    assert.ok(!fs.existsSync(path.join(root, entry)), "Plugin would auto-load: " + entry);
+  }
+  const core = loadRoles().filter((r) => r.group === "core")
+    .map((r) => "./adapters/claude-code/agents/cadence-lite-" + r.id + ".md");
+  assert.deepEqual(plugin.agents, core);
+  for (const file of plugin.agents) assert.ok(fs.existsSync(path.join(root, file)), "Missing agent: " + file);
+  // Claude Code also scans the root agents/ folder; its portable sources stay unloadable without frontmatter.
+  for (const name of fs.readdirSync(path.join(root, "agents")).filter((n) => n.endsWith(".md"))) {
+    assert.ok(!fs.readFileSync(path.join(root, "agents", name), "utf8").startsWith("---"), "Root agent would load: " + name);
+  }
+});

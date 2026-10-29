@@ -2,6 +2,8 @@
 
 Status: implemented, locally validated, and published as draft PR #4
 Next action: live harness acceptance and maintainer review of the stacked PR.
+Note (2026-10-29): the maintainer-signed local merge procedure below is retired;
+PRs now squash-merge on GitHub after review. See CONTRIBUTING.md.
 
 ## Goal and approved approach
 

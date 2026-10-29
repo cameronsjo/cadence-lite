@@ -47,7 +47,8 @@ both hostile status-field reproductions reject and leave no prompt files.
 
 ## Limits
 
-No Pi, Codex, Claude Code, or OpenCode executable is installed in this environment.
+In the 2026-09-10 environment, no Pi, Codex, Claude Code, or OpenCode executable
+was installed.
 No model-backed child or live native-agent discovery was run. No remote npx skills
 installation was run. The documented formats and install paths were checked
 against the linked primary documentation, and skill directories were exercised
@@ -56,3 +57,27 @@ that all harness/model combinations are accepted.
 
 CI is configured to run the package checks on Node.js 22 and 24. A configured CI
 job is not a successful run; consult the PR's checks for its actual results.
+
+## Claude Code plugin load (2026-10-28)
+
+Claude Code 2.1.312 in a claude.ai cloud container, each run with a fresh
+`HOME` or `CLAUDE_CONFIG_DIR`, asking a print-mode session to list what loaded:
+
+| Setup | First session | What it establishes |
+| --- | --- | --- |
+| Marketplace as a local `directory` source in settings | 9 skills, 5 agents | The skills path and agent list resolve; the root `agents/` sources do not load |
+| Marketplace as a `github` source declared in settings only | Nothing loaded; the second session loaded all 14 | A declared marketplace's plugin arrives one session late |
+| `claude plugin marketplace add cameronsjo/cadence-lite@<branch>` then `plugin install` | 9 skills, 5 agents | The install works in a fresh home |
+| `marketplace add …@<commit>` | Fails: remote branch not found | The `@` ref is a branch or tag, not a commit |
+
+`claude plugin validate .` passed with expected warnings: no `version` (cadence
+uses commit-based caching), no icon, and "No
+frontmatter block found" for the 12 portable sources under the root `agents/`,
+which the validator scans as a default agents folder. The runtime loads only the
+five listed adapter files.
+
+Before 2026-10-29 the README's setup script verified the tip's SSH signature;
+that check was dropped with the signed-commit policy. The cloud environment's
+own setup script was not run: whether it runs as the session's user, with
+`claude` available, is untested. Skill behavior in a cloud session was not
+exercised.

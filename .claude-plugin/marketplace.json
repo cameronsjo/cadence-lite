@@ -1,0 +1,14 @@
+{
+  "name": "cadence-lite",
+  "description": "The cadence-lite plugin: a small, hook-free workflow for coding agents.",
+  "owner": {
+    "name": "Cameron Sjo"
+  },
+  "plugins": [
+    {
+      "name": "cadence-lite",
+      "source": "./",
+      "description": "Cadence's portable rhythm (intro, attune, polish, outro, capture, and four optional workflows) with the five core reviewer and test-author agents. No hooks."
+    }
+  ]
+}

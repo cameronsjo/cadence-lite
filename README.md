@@ -5,6 +5,7 @@ choices, build, review, and leave enough context to resume.
 
 The skills work without hooks, a plugin runtime, or native subagents. Optional
 agent adapters add independent review and bounded test/documentation work.
+Claude Code can also load the skills and core agents as one plugin (below).
 
 ## Install the skills
 
@@ -38,12 +39,37 @@ workflows, and no extensions. Use Pi's resource configuration to disable unwante
 skills. Choose either Pi's package manager or npx skills for a given installation,
 so you do not load the same skills twice. See [Pi packages](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/packages.md).
 
-These commands follow the selected repository revision; they do not verify the
-maintainer's signing identity. Consumers enforcing the signature policy in
-[CONTRIBUTING.md](CONTRIBUTING.md) should install from a checkout already verified
-against their trusted maintainer key, using npx skills add ./cadence-lite with the
-same selection flags. Verify updates before reinstalling them. A lock or content
-hash identifies content; it does not establish who signed it.
+### Claude Code plugin
+
+Claude Code can load the repository as a plugin. It brings all nine skills
+under the `cadence-lite:` prefix and the five core agents. It has no hooks.
+
+    claude plugin marketplace add cameronsjo/cadence-lite
+    claude plugin install cadence-lite@cadence-lite
+
+Choose the plugin or npx skills and the agent installer for Claude Code, not
+both, so the skills and agents do not load twice. The plugin's test-author agent
+can write files and run shell commands, within the session's permission mode.
+
+### Claude Code on the web
+
+A cloud session whose working directory sits above its cloned repositories, as a
+multi-repository session's does, does not read their `.claude/` folders; it does
+read `~/.claude`. Install the plugin there from the environment's setup script,
+with the same two lines:
+
+    claude plugin marketplace add cameronsjo/cadence-lite
+    claude plugin install cadence-lite@cadence-lite
+
+A cloud session starts in a new container, so the install has to come from that
+script. Declaring the marketplace in `~/.claude/settings.json` is not enough: a
+marketplace declared there with a GitHub source is fetched while a session
+starts, and its plugin loads only in the next one. Append `@<branch or tag>` to the repository to hold one
+revision; a commit is not accepted there.
+
+These commands, like npx skills and Pi above, install whatever the chosen
+revision holds, with no review step of their own. The repository's pull-request
+review is that step.
 
 ## The rhythm
 
@@ -176,12 +202,12 @@ for the exercised boundaries and remaining checks.
 Lite keeps portable workflow decisions and specialist briefs. Full Cadence adds
 runtime enforcement, coordination, routing, and a wider skill surface. Install
 those capabilities when they help the work; a harness supporting plugins is
-not by itself a reason to load a larger instruction set.
+not by itself a reason to load a larger instruction set. The lite plugin is the
+small option; full Cadence's plugins are the larger ones.
 
 ## License and contributions
 
 Apache-2.0 with the Commons Clause; see [LICENSE](LICENSE). This is
 source-available, not OSI-approved open source.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Maintainer-signed local merging remains
-the merge process; the adapters and CI do not change it.
+See [CONTRIBUTING.md](CONTRIBUTING.md).
