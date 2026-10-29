@@ -70,7 +70,9 @@ signature check. To follow the signature policy in
     set -e
     command -v ssh-keygen >/dev/null || { apt-get update -q && apt-get install -y -q openssh-client; }
     dir="$HOME/.cadence-lite"
-    rm -rf "$dir"
+    if [ -e "$dir" ]; then
+      [ "$(git -C "$dir" config remote.origin.url)" = https://github.com/cameronsjo/cadence-lite ] && rm -rf "$dir"
+    fi
     git clone --quiet https://github.com/cameronsjo/cadence-lite "$dir"
     echo '* namespaces="git" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDNUduYzshHWuSNSB7z8qpQA0myzRnIbyVuHtCY3W4x3' > "$dir.signers"
     git -C "$dir" cat-file commit HEAD | sed '/^$/q' | grep -q '^gpgsig -----BEGIN SSH SIGNATURE-----'
@@ -81,14 +83,16 @@ signature check. To follow the signature policy in
 
 The key is the maintainer's signing key. A tip it did not sign stops the script
 before anything is installed, including a tip of `main` that was merged without
-a maintainer signature. The script accepts only an SSH signature, checks it with
-`ssh-keygen` whatever the machine's git config names as its SSH verifier, and
-turns off git's GPG and X.509 verifiers: either would otherwise accept a
-signature from any key in a local keyring, such as GitHub's web-flow key.
+a maintainer signature. The script accepts only an SSH signature, pins
+`ssh-keygen` as the SSH verifier over any `gpg.ssh.program` in the machine's git
+config, and turns off git's GPG and X.509 verifiers: either would otherwise
+accept a signature from any key in a local keyring, such as GitHub's web-flow
+key.
 
 Verification needs `ssh-keygen`. The second line installs it with `apt-get`,
 which needs root; without either, install OpenSSH by other means or the script
-stops. The script starts from a fresh clone, so running it again is harmless.
+stops. The script replaces its own earlier clone, so running it again is
+harmless; it stops rather than delete anything else already at that path.
 
 A signature shows who signed a commit, not that it is the newest one. To hold
 one release, add `--branch <tag>` to the clone and compare
@@ -234,7 +238,7 @@ Lite keeps portable workflow decisions and specialist briefs. Full Cadence adds
 runtime enforcement, coordination, routing, and a wider skill surface. Install
 those capabilities when they help the work; a harness supporting plugins is
 not by itself a reason to load a larger instruction set. The lite plugin is the
-small option; full Cadence's plugins are the larger one.
+small option; full Cadence's plugins are the larger ones.
 
 ## License and contributions
 
