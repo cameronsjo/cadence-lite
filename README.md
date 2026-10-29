@@ -47,9 +47,6 @@ under the `cadence-lite:` prefix and the five core agents. It has no hooks.
     claude plugin marketplace add cameronsjo/cadence-lite
     claude plugin install cadence-lite@cadence-lite
 
-These two lines install the current default branch unverified; the next
-section gives a script that checks the maintainer's signature first.
-
 Choose the plugin or npx skills and the agent installer for Claude Code, not
 both, so the skills and agents do not load twice. The plugin's test-author agent
 can write files and run shell commands, within the session's permission mode.
@@ -58,54 +55,21 @@ can write files and run shell commands, within the session's permission mode.
 
 A cloud session whose working directory sits above its cloned repositories, as a
 multi-repository session's does, does not read their `.claude/` folders; it does
-read `~/.claude`. Install the plugin there from the environment's setup script. A cloud session
-starts in a new container, so the install has to come from that script.
-Only install there: a marketplace merely declared in `~/.claude/settings.json`
-is fetched while a session starts, and its plugin loads only in the next one.
+read `~/.claude`. Install the plugin there from the environment's setup script,
+with the same two lines:
 
-The marketplace commands above take the current default branch with no
-signature check. To follow the signature policy in
-[CONTRIBUTING.md](CONTRIBUTING.md), verify the clone before installing it:
-
-    set -e
-    command -v ssh-keygen >/dev/null || { apt-get update -q && apt-get install -y -q openssh-client; }
-    dir="$HOME/.cadence-lite"
-    if [ -e "$dir" ] && [ -f "$dir.signers" ]; then
-      [ "$(git -C "$dir" config remote.origin.url)" = https://github.com/cameronsjo/cadence-lite ] && rm -rf "$dir"
-    fi
-    git clone --quiet https://github.com/cameronsjo/cadence-lite "$dir"
-    echo '* namespaces="git" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDNUduYzshHWuSNSB7z8qpQA0myzRnIbyVuHtCY3W4x3' > "$dir.signers"
-    git -C "$dir" cat-file commit HEAD | sed '/^$/q' | grep -q '^gpgsig -----BEGIN SSH SIGNATURE-----'
-    git -C "$dir" -c gpg.ssh.allowedSignersFile="$dir.signers" -c gpg.ssh.program=ssh-keygen \
-      -c gpg.program=false -c gpg.x509.program=false verify-commit HEAD
-    claude plugin marketplace add "$dir"
+    claude plugin marketplace add cameronsjo/cadence-lite
     claude plugin install cadence-lite@cadence-lite
 
-The key is the maintainer's signing key. A tip it did not sign stops the script
-before anything is installed, including a tip of `main` that was merged without
-a maintainer signature. The script accepts only an SSH signature, pins
-`ssh-keygen` as the SSH verifier over any `gpg.ssh.program` in the machine's git
-config, and turns off git's GPG and X.509 verifiers: either would otherwise
-accept a signature from any key in a local keyring, such as GitHub's web-flow
-key.
+A cloud session starts in a new container, so the install has to come from that
+script. Declaring the marketplace in `~/.claude/settings.json` is not enough: a
+declared marketplace is fetched while a session starts, and its plugin loads
+only in the next one. Append `@<branch or tag>` to the repository to hold one
+revision; a commit is not accepted there.
 
-Verification needs `ssh-keygen`. The second line installs it with `apt-get`,
-which needs root; without either, install OpenSSH by other means or the script
-stops. The script replaces its own earlier clone, so running it again is
-harmless. It knows that clone by the signers file it writes beside it and by
-the clone's origin, and stops rather than delete anything else at that path.
-
-A signature shows who signed a commit, not that it is the newest one. To hold
-one release, add `--branch <tag>` to the clone and compare
-`git -C "$dir" rev-parse HEAD` with the commit you expect. The marketplace
-form takes `@<branch or tag>`, not a commit.
-
-The npx skills and Pi commands above also follow the selected revision without
-checking who signed it. Consumers enforcing the signature policy in
-[CONTRIBUTING.md](CONTRIBUTING.md) should run the script's checks on a checkout
-first, then install it with npx skills add ./cadence-lite and the same selection
-flags. Verify updates before reinstalling them. A lock or content hash
-identifies content; it does not establish who signed it.
+These commands, like npx skills and Pi above, install whatever the chosen
+revision holds, with no review step of their own. The repository's pull-request
+review is that step.
 
 ## The rhythm
 
@@ -246,5 +210,4 @@ small option; full Cadence's plugins are the larger ones.
 Apache-2.0 with the Commons Clause; see [LICENSE](LICENSE). This is
 source-available, not OSI-approved open source.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Maintainer-signed local merging remains
-the merge process; the adapters and CI do not change it.
+See [CONTRIBUTING.md](CONTRIBUTING.md).

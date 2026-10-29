@@ -67,11 +67,8 @@ Claude Code 2.1.312 in a claude.ai cloud container, each run with a fresh
 | --- | --- | --- |
 | Marketplace as a local `directory` source in settings | 9 skills, 5 agents | The skills path and agent list resolve; the root `agents/` sources do not load |
 | Marketplace as a `github` source declared in settings only | Nothing loaded; the second session loaded all 14 | A declared marketplace's plugin arrives one session late |
-| `claude plugin marketplace add cameronsjo/cadence-lite@<branch>` then `plugin install` | 9 skills, 5 agents | The unverified install works in a fresh home |
+| `claude plugin marketplace add cameronsjo/cadence-lite@<branch>` then `plugin install` | 9 skills, 5 agents | The install works in a fresh home |
 | `marketplace add …@<commit>` | Fails: remote branch not found | The `@` ref is a branch or tag, not a commit |
-| README verified script: clone, `verify-commit HEAD`, `marketplace add <dir>`, `plugin install` | 9 skills, 5 agents | The verified install works; `main`'s tip verified, and a tip signed by another key stopped with "No principal matched" |
-| The verify lines against a tip signed by a PGP key in the local keyring (2026-10-29) | Stopped | The SSH-only check and disabled GPG and X.509 verifiers close the bypass; the earlier line, with only `allowedSignersFile`, accepted that tip |
-| The verify lines with the container's own `~/.gitconfig`, which names `/tmp/code-sign` as `gpg.ssh.program` (2026-10-29) | `main` verifies only once the script pins `gpg.ssh.program=ssh-keygen` | A machine's SSH verifier setting otherwise decides the result |
 
 `claude plugin validate .` passed with expected warnings: no `version` (cadence
 uses commit-based caching), no icon, and "No
@@ -79,7 +76,8 @@ frontmatter block found" for the 12 portable sources under the root `agents/`,
 which the validator scans as a default agents folder. The runtime loads only the
 five listed adapter files.
 
-The container had no `ssh-keygen`; the verified script installs
-`openssh-client` for that. The cloud environment's own setup script was not
-run: whether it runs as the session's user, with `claude` and `apt-get`
+An earlier revision of this change verified the tip's SSH signature before
+installing. That check was dropped on 2026-10-29 along with the signed-commit
+policy. The cloud environment's own setup script was not
+run: whether it runs as the session's user, with `claude`
 available, is untested. Skill behavior in a cloud session was not exercised.
