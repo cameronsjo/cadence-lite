@@ -70,7 +70,7 @@ signature check. To follow the signature policy in
     set -e
     command -v ssh-keygen >/dev/null || { apt-get update -q && apt-get install -y -q openssh-client; }
     dir="$HOME/.cadence-lite"
-    if [ -e "$dir" ]; then
+    if [ -e "$dir" ] && [ -f "$dir.signers" ]; then
       [ "$(git -C "$dir" config remote.origin.url)" = https://github.com/cameronsjo/cadence-lite ] && rm -rf "$dir"
     fi
     git clone --quiet https://github.com/cameronsjo/cadence-lite "$dir"
@@ -92,7 +92,8 @@ key.
 Verification needs `ssh-keygen`. The second line installs it with `apt-get`,
 which needs root; without either, install OpenSSH by other means or the script
 stops. The script replaces its own earlier clone, so running it again is
-harmless; it stops rather than delete anything else already at that path.
+harmless. It knows that clone by the signers file it writes beside it and by
+the clone's origin, and stops rather than delete anything else at that path.
 
 A signature shows who signed a commit, not that it is the newest one. To hold
 one release, add `--branch <tag>` to the clone and compare
