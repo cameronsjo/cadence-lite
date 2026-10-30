@@ -1,0 +1,4 @@
+# Codex skill metadata: Codex hides this skill from the model, so it runs
+# only when invoked explicitly as $outro.
+policy:
+  allow_implicit_invocation: false
