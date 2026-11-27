@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add optional `raising-ambition` for pushing a task, plan, or deliverable
+  further along Altitude, Depth, and Range with an explicit scope-change test
+  and an outside judge.
+
 - Update the portable specialist roster to ten roles: add `performance-reviewer`,
   fold `developer-experience-reviewer` into `agent-experience-reviewer`, retire
   `test-author` (tests are written directly in Polish), and narrow security

@@ -24,7 +24,7 @@ across projects. Preview discovery with:
 Optional workflows can be selected separately:
 
     npx skills add cameronsjo/cadence-lite \
-      --skill triage adapt improve-repo writing-pull-requests --agent codex
+      --skill triage adapt improve-repo writing-pull-requests raising-ambition --agent codex
 
 The [skills CLI](https://github.com/vercel-labs/skills) installs skill folders and
 their references; it does not register the native subagents below. Use
@@ -34,7 +34,7 @@ Pi also supports a skills-only Git package:
 
     pi install git:github.com/cameronsjo/cadence-lite
 
-The explicit Pi manifest loads all nine skills, including the four optional
+The explicit Pi manifest loads all ten skills, including the five optional
 workflows, and no extensions. Use Pi's resource configuration to disable unwanted
 skills. Choose either Pi's package manager or npx skills for a given installation,
 so you do not load the same skills twice. See [Pi packages](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/packages.md).
@@ -44,7 +44,7 @@ the skill directories directly from a verified checkout.
 
 ### Claude Code plugin
 
-Claude Code can load the repository as a plugin. It brings all nine skills
+Claude Code can load the repository as a plugin. It brings all ten skills
 under the `cadence-lite:` prefix and the four core agents. It has no hooks.
 
     claude plugin marketplace add cameronsjo/cadence-lite
@@ -86,6 +86,7 @@ review is that step.
 | [adapt](skills/adapt/SKILL.md) | Learning from demonstrated workflow friction | A proportionate improvement or a reason to make no change |
 | [improve-repo](skills/improve-repo/SKILL.md) | Improving repository delivery through a real task | Verified improvements within a bounded scope |
 | [writing-pull-requests](skills/writing-pull-requests/SKILL.md) | Writing a PR description, commit message, or review comment | Text a reader who missed the session can act on |
+| [raising-ambition](skills/raising-ambition/SKILL.md) | Asked to think bigger, raise the bar, or push an approach further | A raised ask or in-scope upgrades with an outside judge |
 
 On Codex, outro, improve-repo, and adapt run only when invoked by name
 (`$outro`, `$improve-repo`, `$adapt`). Each ships an `agents/openai.yaml` that
