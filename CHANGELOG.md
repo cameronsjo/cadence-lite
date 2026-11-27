@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+- Update the portable specialist roster to ten roles: add `performance-reviewer`,
+  fold `developer-experience-reviewer` into `agent-experience-reviewer`, retire
+  `test-author` (tests are written directly in Polish), and narrow security
+  review on cooperative-guard code.
+- Update portable skills: Attune enforces security posture review across every
+  route (including security-sensitive recommendation-only reports), searches
+  existing options before proposing to build, renames concessions to
+  workarounds, and adds optional live-state claim probes to the plan template;
+  Polish reports unreasoned safeguard waivers and drops `test-author` dispatch;
+  Outro restricts unasked writes in autonomous turns and requires verified
+  owners for every surfaced loose end; `writing-pull-requests` keeps
+  cross-repo, plan, and tracker pointers out of code comments.
 - Attune plans the closer: work that creates something lasting (a queue item,
   a claim, a flag) with nothing named to end it gets a closer planned in, which
   the user can strike. It also names concessions: workarounds for a platform

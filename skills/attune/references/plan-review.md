@@ -9,11 +9,11 @@ Add only the roles that have a concrete question to answer:
 
 | Role | Trigger |
 | --- | --- |
-| [Security posture reviewer](agents/security-posture-reviewer.md) | Introducing, activating, weakening, removing, narrowing coverage of, or exposing a security control, including previously merged code |
+| [Security posture reviewer](agents/security-posture-reviewer.md) | Introducing, activating, weakening, removing, narrowing coverage of, or exposing a security control (including previously merged code), changing outbound reach/egress, or writing a security-sensitive recommendation-only report |
 | [Red team reviewer](agents/red-team-reviewer.md) | Destructive/migration/shared-state operations, rollback claims, or verification recipes that need live-state evidence |
-| [Agent experience reviewer](agents/agent-experience-reviewer.md) | Agent-consumed instructions, skills, schemas, or machine output |
+| [Agent experience reviewer](agents/agent-experience-reviewer.md) | Agent-consumed instructions, skills, schemas, machine output, or setup, build, test, CI, and contributor workflows |
+| [Performance reviewer](agents/performance-reviewer.md) | Hot paths, poll or render loops, CLI entry points, parsers/scanners, subprocess wrappers, or batch/DB/network fan-out |
 | [User experience reviewer](agents/user-experience-reviewer.md) | A consequential change to a user's journey or decision |
-| [Developer experience reviewer](agents/developer-experience-reviewer.md) | Setup, build, test, CI, or contributor workflow |
 | [Operability reviewer](agents/operability-reviewer.md) | Partial failure, retries, background work, recovery, or operational procedures |
 
 Give a reviewer the goal, complete plan, relevant requirements, target paths, and

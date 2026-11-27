@@ -8,12 +8,11 @@ these briefs travel with the skill and work without native registration.
 | --- | --- |
 | [Code reviewer](agents/code-reviewer.md) | Consequential implementation changes; correctness, regressions, and unnecessary complexity |
 | [Security reviewer](agents/security-reviewer.md) | Untrusted input, authentication, authorization, sensitive data, or agent capability/instruction changes |
-| [Agent experience reviewer](agents/agent-experience-reviewer.md) | Skills, agents, rules, tool schemas, or output an agent must interpret |
+| [Agent experience reviewer](agents/agent-experience-reviewer.md) | Skills, agents, rules, tool schemas, output an agent must interpret, or setup, build, test, CI, tooling, and contributor-path changes |
+| [Performance reviewer](agents/performance-reviewer.md) | Hot paths, poll/render loops, subprocess wrappers, parsers/scanners, or scaling/fan-out traps |
 | [Red team reviewer](agents/red-team-reviewer.md) | Operational assumptions or executable recipes whose correctness depends on actual state |
 | [User experience reviewer](agents/user-experience-reviewer.md) | Changed user journey, CLI interface, prompts, quickstart, or recovery messages |
-| [Developer experience reviewer](agents/developer-experience-reviewer.md) | Setup, build, test, CI, tooling, or contributor-path changes |
 | [Operability reviewer](agents/operability-reviewer.md) | Partial failure, retries, migrations, background jobs, recovery, or audit trails |
-| [Test author](agents/test-author.md) | A concrete gap in required behavioral or regression coverage; authorized test-file edits only |
 | [Documentation writer](agents/doc-writer.md) | Changed behavior needs verified installation, usage, API, or runbook documentation |
 
 A narrow, low-risk change can be reviewed directly. Core installation means the

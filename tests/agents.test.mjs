@@ -17,12 +17,13 @@ const native = ["claude-code", "codex", "opencode", "pi"];
 
 test("portable roster is the agreed set; generated artifacts and Pi definitions load", () => {
   assert.deepEqual(loadRoles().map((r) => r.id).sort(), [
-    "agent-experience-reviewer", "code-reviewer", "developer-experience-reviewer",
-    "doc-writer", "operability-reviewer", "plan-reviewer", "red-team-reviewer",
-    "security-posture-reviewer", "security-reviewer", "test-author", "user-experience-reviewer"
+    "agent-experience-reviewer", "code-reviewer", "doc-writer",
+    "operability-reviewer", "performance-reviewer", "plan-reviewer",
+    "red-team-reviewer", "security-posture-reviewer", "security-reviewer",
+    "user-experience-reviewer"
   ]);
-  assert.equal(generate({ check: true }), 60);
-  assert.equal(loadAgents().size, 11);
+  assert.equal(generate({ check: true }), 55);
+  assert.equal(loadAgents().size, 10);
 });
 
 test("native Codex TOML parses with inherited models and appropriate sandbox modes", () => {
@@ -31,7 +32,7 @@ test("native Codex TOML parses with inherited models and appropriate sandbox mod
   ], { cwd: root, encoding: "utf8" });
   assert.equal(result.status, 0, result.stderr);
   const configs = JSON.parse(result.stdout);
-  assert.equal(configs.length, 11);
+  assert.equal(configs.length, 10);
   for (const config of configs) {
     const role = loadRoles().find((r) => config.name === "cadence-lite-" + r.id);
     assert.ok(role);
@@ -49,16 +50,16 @@ for (const agent of native) {
     const project = temporary(t);
     fs.writeFileSync(path.join(project, "keep.txt"), "mine");
     const first = install({ agent, project });
-    assert.equal(first.changed.length, agent === "pi" ? 7 : 5);
+    assert.equal(first.changed.length, agent === "pi" ? 6 : 4);
     assert.equal(install({ agent, project }).changed.length, 0);
     const all = install({ agent, project, group: "all" });
     assert.equal(all.changed.length, 6);
     assert.equal(fs.readFileSync(path.join(project, "keep.txt"), "utf8"), "mine");
     if (agent === "pi") {
       const roles = loadAgents(path.join(all.destination, "agents"));
-      assert.equal(roles.size, 11);
+      assert.equal(roles.size, 10);
       assert.deepEqual(roles.get("cadence-lite-code-reviewer").tools, ["read", "grep", "find", "ls"]);
-      assert.ok(roles.get("cadence-lite-test-author").tools.includes("write"));
+      assert.ok(roles.get("cadence-lite-doc-writer").tools.includes("write"));
     }
   });
 }
@@ -66,7 +67,7 @@ for (const agent of native) {
 test("dry-run creates no destination or manifest", (t) => {
   const project = temporary(t);
   const result = install({ agent: "codex", project, dryRun: true });
-  assert.equal(result.changed.length, 5);
+  assert.equal(result.changed.length, 4);
   assert.deepEqual(fs.readdirSync(project), []);
 });
 
@@ -81,7 +82,7 @@ test("installed Pi manifest resolves an importable extension with the installed 
   let tool;
   extension.default({ registerTool: (definition) => { tool = definition; } });
   assert.equal(tool.name, "cadence_lite_dispatch");
-  assert.equal(tool.parameters.properties.agent.enum.length, 5);
+  assert.equal(tool.parameters.properties.agent.enum.length, 4);
 });
 
 test("documented CLI accepts selection and dry-run without writing", (t) => {
@@ -89,7 +90,7 @@ test("documented CLI accepts selection and dry-run without writing", (t) => {
   const result = spawnSync(process.execPath, ["scripts/install-agents.mjs", "--agent", "codex",
     "--project", project, "--group", "all", "--dry-run"], { cwd: root, encoding: "utf8" });
   assert.equal(result.status, 0, result.stderr);
-  assert.equal(JSON.parse(result.stdout).changed.length, 11);
+  assert.equal(JSON.parse(result.stdout).changed.length, 10);
   assert.deepEqual(fs.readdirSync(project), []);
 });
 

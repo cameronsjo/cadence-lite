@@ -18,11 +18,18 @@ Fill them with actual decisions; omit sections that do not help the task.
     What the delivered work creates that outlives its action, and what closes
     each one. Or: "Loop: none — <reason>".
 
-    ## Concessions
+    ## Workarounds
     Each workaround, the platform limit behind it and how it was checked, who
     owns the platform, and the route: fix first, deferred (name the follow-up
     the workaround's marker points to), or conceded.
-    Or: "Concessions: none — <reason>".
+    Or: "Workarounds: none — <reason>".
+
+    ## Live-state claims
+    Optional: include when the plan relies on external or live state. Pair each
+    claim with a read-only probe run at pickup and again before acting, recording
+    the verdict (`CONFIRMED`, `ALREADY-FIXED`, `OBSOLETE`, `WRONG-REPO`, or
+    `REFUTED`).
+    - Claim: <what must hold> | Probe: `<read-only command>` | Verdict: <status>
 
     ## Work
     - [ ] Bounded step with its dependency and verification where needed.
