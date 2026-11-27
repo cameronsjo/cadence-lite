@@ -4,7 +4,7 @@ A small, portable workflow for coding agents: orient, resolve consequential
 choices, build, review, and leave enough context to resume.
 
 The skills work without hooks, a plugin runtime, or native subagents. Optional
-agent adapters add independent review and bounded test/documentation work.
+agent adapters add independent review and bounded documentation work.
 Claude Code can also load the skills and core agents as one plugin (below).
 
 ## Install the skills
@@ -39,17 +39,19 @@ workflows, and no extensions. Use Pi's resource configuration to disable unwante
 skills. Choose either Pi's package manager or npx skills for a given installation,
 so you do not load the same skills twice. See [Pi packages](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/packages.md).
 
+Harnesses that discover `~/.agents/skills/` (such as Antigravity) can symlink
+the skill directories directly from a verified checkout.
+
 ### Claude Code plugin
 
 Claude Code can load the repository as a plugin. It brings all nine skills
-under the `cadence-lite:` prefix and the five core agents. It has no hooks.
+under the `cadence-lite:` prefix and the four core agents. It has no hooks.
 
     claude plugin marketplace add cameronsjo/cadence-lite
     claude plugin install cadence-lite@cadence-lite
 
 Choose the plugin or npx skills and the agent installer for Claude Code, not
-both, so the skills and agents do not load twice. The plugin's test-author agent
-can write files and run shell commands, within the session's permission mode.
+both, so the skills and agents do not load twice.
 
 ### Claude Code on the web
 
@@ -102,19 +104,18 @@ on a substantial plan, with additional roles selected by the affected surface.
 
 ## Optional native agents
 
-All eleven roles are defined once under [agents/](agents/manifest.json).
+All ten roles are defined once under [agents/](agents/manifest.json).
 Generated skill-local copies let Attune and Polish use their briefs even when
 native agents are absent. Native names begin with cadence-lite- to coexist with
 full Cadence and other agent collections.
 
 | Installation group | Roles |
 | --- | --- |
-| core (default) | plan-reviewer, code-reviewer, security-reviewer, agent-experience-reviewer, test-author |
-| all | The core roles plus red-team-reviewer, security-posture-reviewer, user-experience-reviewer, developer-experience-reviewer, operability-reviewer, doc-writer |
+| core (default) | plan-reviewer, code-reviewer, security-reviewer, agent-experience-reviewer |
+| all | The core roles plus performance-reviewer, red-team-reviewer, security-posture-reviewer, user-experience-reviewer, operability-reviewer, doc-writer |
 
 Core means available, not compulsory on every change. Reviewers return findings;
-test-author writes tests against required behavior without changing production
-code; doc-writer updates assigned documentation from verified behavior.
+doc-writer updates assigned documentation from verified behavior.
 The roster excludes Cadence Voice and domain-specific plugin agents.
 
 Clone a stable checkout and run the installer with Node.js 22 or newer:
@@ -161,8 +162,8 @@ settings so the harness supplies its normal configuration.
 Claude Code, OpenCode, and Pi reviewers have file-reading tools and no shell or
 write tools by default. Codex reviewers use its read-only sandbox. This allows
 source inspection without claiming live command execution; the caller runs
-authorized checks and supplies evidence. Test and documentation writers have
-editing capabilities, bounded by their task instructions and host permissions.
+authorized checks and supplies evidence. The documentation writer has editing
+capabilities, bounded by its task instructions and host permissions.
 A tool list alone is not an OS sandbox.
 
 Pi's optional adapter registers cadence_lite_dispatch. A request such as

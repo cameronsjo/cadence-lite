@@ -2,10 +2,22 @@
 
 ## Unreleased
 
+- Update the portable specialist roster to ten roles: add `performance-reviewer`,
+  fold `developer-experience-reviewer` into `agent-experience-reviewer`, retire
+  `test-author` (tests are written directly in Polish), and narrow security
+  review on cooperative-guard code.
+- Update portable skills: Attune enforces security posture review across every
+  route (including security-sensitive recommendation-only reports), searches
+  existing options before proposing to build, renames concessions to
+  workarounds, and adds optional live-state claim probes to the plan template;
+  Polish reports unreasoned safeguard waivers and drops `test-author` dispatch;
+  Outro restricts unasked writes in autonomous turns and requires verified
+  owners for every surfaced loose end; `writing-pull-requests` keeps
+  cross-repo, plan, and tracker pointers out of code comments.
 - Changes land through reviewed pull requests merged on GitHub; commits on
   `main` no longer need the maintainer's signature.
 - The repository is now a Claude Code plugin and a one-plugin marketplace:
-  all nine skills and the five core agents, no hooks. The README gives the
+  all nine skills and the four core agents, no hooks. The README gives the
   setup-script lines that load it in Claude Code on the web.
 - Outro, improve-repo, and adapt ship Codex metadata (`agents/openai.yaml`)
   with `policy.allow_implicit_invocation: false`, so on Codex they run only when

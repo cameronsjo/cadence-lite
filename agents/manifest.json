@@ -28,7 +28,7 @@
   },
   {
     "id": "agent-experience-reviewer",
-    "description": "Review skills, agent instructions, tool schemas, and machine-consumed output from a context-poor agent's perspective.",
+    "description": "Review skills, agent instructions, tool schemas, machine-consumed output, and contributor setup, build, test, and CI loops from a context-poor agent's perspective.",
     "group": "core",
     "access": "review",
     "phases": [
@@ -37,11 +37,12 @@
     ]
   },
   {
-    "id": "test-author",
-    "description": "Write focused behavioral and regression tests for changed code, running the test suite to verify them; report product bugs without changing the implementation.",
-    "group": "core",
-    "access": "tests",
+    "id": "performance-reviewer",
+    "description": "Review a plan or diff for hot-path inefficiencies, frequency multipliers, and scaling traps without weakening safety invariants.",
+    "group": "optional",
+    "access": "review",
     "phases": [
+      "attune",
       "polish"
     ]
   },
@@ -57,7 +58,7 @@
   },
   {
     "id": "security-posture-reviewer",
-    "description": "Review plans that introduce, activate, weaken, remove, or expose a security control, including unchanged implementation.",
+    "description": "Review plans or recommendation-only reports that introduce, activate, weaken, remove, or expose a security control (including outbound reach and egress), covering unchanged implementation.",
     "group": "optional",
     "access": "review",
     "phases": [
@@ -67,16 +68,6 @@
   {
     "id": "user-experience-reviewer",
     "description": "Review user-facing flows, instructions, prompts, and error states for clear decisions and recovery.",
-    "group": "optional",
-    "access": "review",
-    "phases": [
-      "attune",
-      "polish"
-    ]
-  },
-  {
-    "id": "developer-experience-reviewer",
-    "description": "Review setup, build, test, CI, and contributor workflows for executable instructions and useful feedback.",
     "group": "optional",
     "access": "review",
     "phases": [

@@ -37,10 +37,11 @@ dispatch stays visible; an inline fallback must be identified as lacking indepen
 context. Do not make every installed role a mandatory pass.
 
 Fix supported findings within the request. Record each as fixed, deferred with a
-named landing spot, or declined with a reason. Use test-author when meaningful
-behavioral coverage is missing, and doc-writer when changed behavior needs
-documentation. Give writers disjoint, explicit paths; review the combined result.
-A review-only request permits neither writer nor source edits.
+named landing spot, or declined with a reason. Write focused behavioral or
+regression tests directly when coverage is missing, and use doc-writer when
+changed behavior needs verified documentation. Give writers disjoint, explicit
+paths; review the combined result. A review-only request permits neither writer
+nor source edits.
 
 ## Verify the final change
 
@@ -55,7 +56,9 @@ A source inspection, generated manifest check, or mocked child process does not
 prove a live integration works. Say which boundary remains untested.
 
 Follow the project's changelog convention for consumer-visible changes. Check for
-accidental files, debug output, and scope creep after substantive work.
+accidental files, debug output, and scope creep after substantive work. Report
+any safeguard waived, ignored, or turned off without a stated reason; do not
+remove it or invent a reason.
 
 ## Return evidence and complete delivery
 

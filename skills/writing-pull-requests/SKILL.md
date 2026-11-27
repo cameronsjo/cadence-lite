@@ -98,6 +98,8 @@ limits in Security fixes above apply to the subject and body too.
   comments from the code they discuss; correct it with a follow-up commit instead.
 - Keep closing keywords away from issue numbers you do not mean to close. Hosts
   often parse them anywhere, even in a sentence saying an issue stays open.
+- Keep pointers to other repositories, local paths, plans, chats, or external
+  trackers in commit messages or PR bodies rather than code comments.
 
 ## Review comments
 
