@@ -8,7 +8,7 @@
     {
       "name": "cadence-lite",
       "source": "./",
-      "description": "Cadence's portable rhythm (intro, attune, polish, outro, capture, and five optional workflows) with the four core reviewer agents. No hooks."
+      "description": "Cadence's portable rhythm (intro, attune, polish, outro, capture, and six optional workflows) with the four core reviewer agents. No hooks."
     }
   ]
 }

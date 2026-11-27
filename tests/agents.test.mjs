@@ -223,7 +223,7 @@ test("Claude Code plugin declares every skill, exactly the core agents, and noth
   assert.equal(plugin.skills, "./skills/");
   const skills = fs.readdirSync(path.join(root, "skills"))
     .filter((name) => fs.existsSync(path.join(root, "skills", name, "SKILL.md")));
-  assert.equal(skills.length, 10);
+  assert.equal(skills.length, 11);
   for (const key of ["hooks", "mcpServers", "lspServers", "commands", "outputStyles"]) {
     assert.equal(plugin[key], undefined, "Unexpected plugin key: " + key);
   }

@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Add optional `perf-audit` for benchmark-first performance audits across Rust,
+  Go, TypeScript/JS, and shell/CLI code, pairing with `performance-reviewer`.
+
 - Add optional `raising-ambition` for pushing a task, plan, or deliverable
   further along Altitude, Depth, and Range with an explicit scope-change test
   and an outside judge.
